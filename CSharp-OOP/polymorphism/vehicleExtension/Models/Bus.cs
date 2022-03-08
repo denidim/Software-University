@@ -6,20 +6,13 @@
             : base(fuelQuantity, fuelConsumption, tankCapacity)
         {
         }
+        
+         public override double FuelConsumption =>
+            AirCon == false
+            ? base.FuelConsumption
+            : base.FuelConsumption + 1.4;
 
-        public override double FuelConsumption
-        {
-            get => base.FuelConsumption;
-            set
-            {
-                if (AirCon == false)
-                {
-                    base.FuelConsumption = value;
-                }
-                base.FuelConsumption = value + 1.4;
-            }
-        }
-
+        
         public override void Drive(double distanceKm)
         {
             base.Drive(distanceKm);
