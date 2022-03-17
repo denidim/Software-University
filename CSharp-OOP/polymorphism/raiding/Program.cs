@@ -36,7 +36,6 @@ namespace raiding
                 else if (type == "Warrior")
                 {
                     heroes.Add(new Warrior(name));
-                    Warrior warrior = new Warrior(name);
                 }
                 else
                 {
