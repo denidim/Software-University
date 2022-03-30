@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.21
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftUniDIFramework", "SoftUniDIFramework\SoftUniDIFramework.csproj", "{AF7383A8-87A6-4DD7-97BC-AE731A70C485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftUniDI", "SoftUniDI\SoftUniDI.csproj", "{7366A83C-C2F6-422D-B076-146D5847AC28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF7383A8-87A6-4DD7-97BC-AE731A70C485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7383A8-87A6-4DD7-97BC-AE731A70C485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7383A8-87A6-4DD7-97BC-AE731A70C485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF7383A8-87A6-4DD7-97BC-AE731A70C485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7366A83C-C2F6-422D-B076-146D5847AC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7366A83C-C2F6-422D-B076-146D5847AC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7366A83C-C2F6-422D-B076-146D5847AC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7366A83C-C2F6-422D-B076-146D5847AC28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A379338B-13C5-4221-BB94-2A5D5921B55E}
+	EndGlobalSection
+EndGlobal
