@@ -1,0 +1,9 @@
+{
+  "name": "html",
+  "version": "0.0.0",
+  "description": "HTML",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "08greeting-by-name",
+  "version": "0.0.0",
+  "description": "08greetingByName",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}
