@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SimpleSnake.GameObjects
+﻿namespace SimpleSnake.GameObjects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public abstract class Food : Point
     {
         private Random random;
@@ -28,21 +28,21 @@ namespace SimpleSnake.GameObjects
 
         internal void SetRandomPosition(Queue<Point> snakeElements)
         {
-            this.LeftX = random.Next(2, wall.LeftX - 2);
-            this.TopY = random.Next(2, wall.TopY - 2);
+            this.LeftX = random.Next(1, wall.LeftX - 1);
+            this.TopY = random.Next(1, wall.TopY - 1);
 
             bool isPointOfSnake = snakeElements.Any(x => x.LeftX == this.LeftX && x.TopY == this.TopY);
 
             while (isPointOfSnake)
             {
-                this.LeftX = random.Next(2, wall.LeftX - 2);
-                this.TopY = random.Next(2, wall.TopY - 2);
+                this.LeftX = random.Next(1, wall.LeftX - 1);
+                this.TopY = random.Next(1, wall.TopY - 1);
 
                 isPointOfSnake = snakeElements.Any(x => x.LeftX == this.LeftX && x.TopY == this.TopY);
             }
-            Console.BackgroundColor = ConsoleColor.Red;
+            Console.BackgroundColor = ConsoleColor.Red;//commnet this line for macOS
             this.Draw(foodSymbol);
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.White;//comment this line for macOS
         }
 
     }

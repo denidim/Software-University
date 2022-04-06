@@ -8,9 +8,12 @@
     {
         public static void Main()
         {
-            ConsoleWindow.CustomizeConsole();
+            //if played on macOS commnt line 43 and 45 in Food.cs 
+            //and line 14 in StartUp.cs
 
-            Wall wall = new Wall(60, 20);
+            ConsoleWindow.CustomizeConsole();//commnet this line for macOS
+
+            Wall wall = new Wall(40, 10);
             Snake snake = new Snake(wall);
 
             Engine engine = new Engine(wall, snake);

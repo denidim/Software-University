@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SimpleSnake.GameObjects
+﻿namespace SimpleSnake.GameObjects
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Snake
     {
         private const char snakeSymbol = '\u25CF';
@@ -15,6 +15,7 @@ namespace SimpleSnake.GameObjects
         private int nextLeftX;
         private int nextTopY;
         private int foodIndex;
+        private bool firstFood = true;
 
         private int RandomFoodNumber => new Random().Next(0, this.food.Length);
 
@@ -28,9 +29,17 @@ namespace SimpleSnake.GameObjects
             this.CreateSnake();
         }
 
+        public int Points { get; private set; }
+
 
         public bool IsMoving(Point direction)
         {
+            if (firstFood)
+            {
+                this.food[foodIndex].SetRandomPosition(this.snakeElements);
+                firstFood = false;
+            }
+
             Point currSnakeHead = this.snakeElements.Last();
 
             GetNextPoint(direction, currSnakeHead);
@@ -66,6 +75,8 @@ namespace SimpleSnake.GameObjects
         private void Eat(Point direction, Point currSnakeHead)
         {
             int length = food[foodIndex].FoodPoints;
+
+            this.Points += length;
 
             for (int i = 0; i < length; i++)
             {

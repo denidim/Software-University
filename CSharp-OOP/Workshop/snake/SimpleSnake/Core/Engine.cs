@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using SimpleSnake.Enums;
-using SimpleSnake.GameObjects;
-
-namespace SimpleSnake.Core
+﻿namespace SimpleSnake.Core
 {
+    using System;
+    using System.Threading;
+    using Enums;
+    using GameObjects;
+
     public class Engine
     {
         private Point[] pointOfDirections;
@@ -51,6 +51,8 @@ namespace SimpleSnake.Core
             int topY = 3;
 
             Console.SetCursorPosition(leftX, topY);
+            Console.Write($"Points: {snake.Points}");
+            Console.SetCursorPosition(leftX, topY + 1);
             Console.Write("Would you like to continue? y/n");
 
             string input = Console.ReadLine();
@@ -76,9 +78,9 @@ namespace SimpleSnake.Core
         private void CreateDirections()
         {
             this.pointOfDirections[0] = new Point(1, 0);//right
-            this.pointOfDirections[0] = new Point(-1, 0);//left
-            this.pointOfDirections[0] = new Point(0, 1);//down
-            this.pointOfDirections[0] = new Point(0, -1);//up
+            this.pointOfDirections[1] = new Point(-1, 0);//left
+            this.pointOfDirections[2] = new Point(0, 1);//down
+            this.pointOfDirections[3] = new Point(0, -1);//up
         }
 
         private void GetNextDirection()
