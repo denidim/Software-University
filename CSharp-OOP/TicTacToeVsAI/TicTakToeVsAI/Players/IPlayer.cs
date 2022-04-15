@@ -1,0 +1,7 @@
+﻿namespace TicTakToeVsAI
+{
+    public interface IPlayer
+    {
+        Index Play(Board board,Symbol symbol);
+    }
+}
