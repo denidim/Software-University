@@ -162,3 +162,218 @@ where EmployeeID = 240
 
     exec dbo.usp_AddEmployeeToProject 1235, 42
 -- lab
+
+--exercise
+
+--Queries for SoftUni Database
+
+--1.Employees with Salary Above 35000
+create procedure usp_GetEmployeesSalaryAbove35000
+    as
+    select FirstName,LastName
+    from Employees
+    where Salary > 35000
+
+exec usp_GetEmployeesSalaryAbove35000
+--1.Employees with Salary Above 35000
+
+--2.Employees with Salary Above Number
+create procedure usp_GetEmployeesSalaryAboveNumber(@number decimal(18,4))
+    as
+    select FirstName,LastName
+    from Employees
+    where Salary >= @number
+
+exec usp_GetEmployeesSalaryAboveNumber 48100
+--2.Employees with Salary Above Number
+
+--3.Town Names Starting With
+create procedure usp_GetTownsStartingWith (@string nvarchar(10))
+as
+    select [Name] as Town
+    from Towns
+    where  left([Name] , len(@string)) = @string
+go
+exec usp_GetTownsStartingWith b
+--3.Town Names Starting With
+
+--4.Employees from Town
+create procedure usp_GetEmployeesFromTown(@townName nvarchar(50))
+as
+    select FirstName,LastName
+from Employees as e join Addresses A on A.AddressID = e.AddressID
+join Towns T on T.TownID = A.TownID
+where T.Name = @townName
+
+exec usp_GetEmployeesFromTown Sofia
+--4.Employees from Town
+
+--5.Salary Level Function
+create or alter function ufn_GetSalaryLevel(@salary DECIMAL(18,4))
+returns nvarchar(10)
+as
+    begin
+        declare @salaryLevel varchar(10)
+        if(@salary<30000)
+            begin
+                set @salaryLevel = 'Low'
+            end
+        else if (@Salary between 30000 and 50000)
+            begin
+               set @SalaryLevel = 'Average'
+            end
+        else
+            begin
+                set @SalaryLevel = 'High'
+            end
+    return @SalaryLevel
+    end
+
+select Salary,
+       dbo.ufn_GetSalaryLevel(Salary) as SalaryLevel
+from Employees
+--5.Salary Level Function
+
+--6.Employees by Salary Level
+create or alter procedure usp_EmployeesBySalaryLevel(@level nvarchar(10))
+as
+    begin
+        select FirstName, LastName
+        from Employees
+        where dbo.ufn_GetSalaryLevel(Salary) =@level
+    end
+
+exec usp_EmployeesBySalaryLevel high
+--6.Employees by Salary Level
+
+--7.Define Function
+create or alter function ufn_IsWordComprised(@setOfLetters nvarchar(20), @word nvarchar(20))
+    returns bit
+as
+    begin
+        declare @i int = 1
+        declare @letter nvarchar(1)
+
+        while (@i<=len(@word))
+            begin
+                set @letter = substring(@word, @i, 1)
+                if(charindex(@letter,@setOfLetters) = 0)
+                      return 0
+                set @i += 1
+            end
+        return 1
+    end
+--7.Define Function
+
+--8.* Delete Employees and Departments
+create procedure usp_DeleteEmployeesFromDepartment(@departmentId INT)
+as
+    begin
+        delete from EmployeesProjects
+               where EmployeeID in(select EmployeeID
+                                   from Employees
+                                   where DepartmentID = @departmentId)
+
+        update Employees
+        set ManagerID = null
+        where ManagerID in(select EmployeeID
+                                   from Employees
+                                   where DepartmentID = @departmentId)
+
+        alter table Departments
+        alter column ManagerID int null
+        update Departments
+        set ManagerID = null
+        where ManagerID in(select EmployeeID
+                                   from Employees
+                                   where DepartmentID = @departmentId)
+
+        delete from Employees
+        where DepartmentID = @departmentId
+
+        delete from Departments
+        where DepartmentID =@departmentId
+
+        select count(*)
+        from Employees
+        where DepartmentID = @departmentId
+    end
+--8.* Delete Employees and Departments
+
+--Queries for Bank Database
+
+--9.Find Full Name
+create procedure usp_GetHoldersFullName
+as
+select concat(FirstName, ' ', LastName) as 'Full Name'
+from AccountHolders
+
+exec usp_GetHoldersFullName
+--9.Find Full Name
+
+--10.People with Balance Higher Than
+create or alter procedure usp_GetHoldersWithBalanceHigherThan(@num dec(15,2))
+as
+begin
+    select FirstName, LastName
+    from AccountHolders as ah
+             join Accounts as a on a.AccountHolderId = ah.Id
+    group by FirstName, LastName
+    having sum(Balance) > @num
+    order by FirstName,LastName
+end
+go
+exec usp_GetHoldersWithBalanceHigherThan 50000
+--10.People with Balance Higher Than
+
+--11.Future Value Function
+create function ufn_CalculateFutureValue
+    (@I decimal(15,2), @R float, @T int)
+    returns decimal(15,4)
+as
+    begin
+        declare @result decimal(15,4)
+        set @result = @I * power((1+@R),@T)
+        return @result
+    end
+
+select dbo.ufn_CalculateFutureValue(1000,0.1,5)
+--11.Future Value Function
+
+--12.Calculating Interest
+create procedure usp_CalculateFutureValueForAccount(@accID int,@interestRate float)
+    as
+select a.Id,
+       ah.FirstName,
+       ah.LastName,
+       a.Balance,
+       dbo.ufn_CalculateFutureValue(a.Balance, 0.1, 5)
+from AccountHolders as ah
+         join Accounts A on ah.Id = A.AccountHolderId
+where a.Id =1
+
+exec usp_CalculateFutureValueForAccount 1, 0.1
+--12.Calculating Interest
+
+--Queries for Diablo Database
+use Diablo
+
+--13.*Scalar Function: Cash in User Games Odd Rows
+create or alter function ufn_CashInUsersGames(@gameName nvarchar(50))
+    returns table
+        as
+        return
+            (
+                select sum(Cash) as SumCash
+                from (select g.Name,
+                             ug.Cash,
+                             row_number() over (partition by g.Name order by ug.Cash desc) as RowNumber
+                      from UsersGames as ug
+                               join Games as g on ug.GameId = g.Id
+                      where g.Name = @gameName) as RowNumberSubQ
+                where RowNumber % 2 != 0
+            )
+go
+select * from ufn_CashInUsersGames('Love in a mist')
+--13.*Scalar Function: Cash in User Games Odd Rows
+--exercise
