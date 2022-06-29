@@ -1,2 +1,2 @@
 # SoftUni
-My Software University Problems and Practices
+My Software University Problems and Practices.
