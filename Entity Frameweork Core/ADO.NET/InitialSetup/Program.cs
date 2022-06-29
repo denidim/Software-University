@@ -14,12 +14,38 @@ namespace InitialSetup
             using (var connection = new SqlConnection(SqlConnectionString))
             {
                 connection.Open();
-                IncreaseMinionAge(connection);
+            }
+            
+        }
+        //9. Increase Age Stored Procedure 
+        private static void UseStoredProcedure(SqlConnection connection)
+        {
+            const string usp_Query = @"exec usp_GetOlder @Id";
+            const string selecrQuery = @"SELECT Name, Age FROM Minions WHERE Id = @Id";
 
+            int id = int.Parse(Console.ReadLine());
+
+            using (var cmd = new SqlCommand(usp_Query, connection))
+            {
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                cmd.ExecuteNonQuery();
             }
 
+            using (var cmd = new SqlCommand(selecrQuery, connection))
+            {
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Console.WriteLine($"{reader[0]} - {reader[1]} years old.");
+                }
+            }
         }
 
+        //8. Increase Minion Age
         private static void IncreaseMinionAge(SqlConnection connection)
         {
             const string updateQuery = @"UPDATE Minions

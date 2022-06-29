@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdoDemo", "AdoDemo\AdoDemo.csproj", "{D86FA91C-856A-48A1-B9BB-C7625E8DA586}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InitialSetup", "InitialSetup\InitialSetup.csproj", "{CF401E7E-4A82-4A9B-A498-7578BBC3C454}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InitialSetup", "InitialSetup\InitialSetup.csproj", "{CF401E7E-4A82-4A9B-A498-7578BBC3C454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
