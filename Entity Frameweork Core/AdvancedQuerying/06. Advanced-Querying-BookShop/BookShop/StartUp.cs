@@ -16,8 +16,7 @@
             using var db = new BookShopContext();
             //DbInitializer.ResetDatabase(db);
 
-
-            Console.WriteLine(  RemoveBooks(db));
+            Console.WriteLine(GetMostRecentBooks(db));
         }
 
         public static int RemoveBooks(BookShopContext db)
