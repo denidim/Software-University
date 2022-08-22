@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,10 @@ namespace BasicWebServer.Server
 
                 var networkStream = connection.GetStream();
 
+                var requestText = this.ReadRequest(networkStream);
+
+                Console.WriteLine(requestText);
+
                 WriteResponce(networkStream, "Hello from Server!");
 
                 connection.Close();
@@ -52,6 +57,34 @@ Content-Length: {contentLength}
             var responseBytes = Encoding.UTF8.GetBytes(responce);
 
             networkStream.Write(responseBytes);
+        }
+
+        private string ReadRequest(NetworkStream networkStream)
+        {
+            var bufferLength = 1024;
+            var buffer = new byte[bufferLength];
+
+            var totalBytes = 0;
+
+            var requesrBuilder = new StringBuilder();
+
+            do
+            {
+                var bytesRead = networkStream.Read(buffer, 0, bufferLength);
+
+                totalBytes += bytesRead;
+
+                if (totalBytes > 10 * 1024)
+                {
+                    throw new InvalidOleVariantTypeException("Request is too large.");
+                }
+
+                requesrBuilder.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+            }
+            //My not work correctly over the internet
+            while (networkStream.DataAvailable);
+
+            return requesrBuilder.ToString();
         }
     }
 }
