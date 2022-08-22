@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BasicWebServer.Server.HTTP
 {
@@ -24,7 +20,6 @@ namespace BasicWebServer.Server.HTTP
 
         public void Add(string name, string value)
             => this.headers[name] = new Header(name, value);
-
 
         public IEnumerator<Header> GetEnumerator() => this.headers.Values.GetEnumerator();
 

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BasicWebServer.Server.HTTP;
+using BasicWebServer.Server.Routing;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using BasicWebServer.Server.HTTP;
-using BasicWebServer.Server.Routing;
 
 namespace BasicWebServer.Server
 {
