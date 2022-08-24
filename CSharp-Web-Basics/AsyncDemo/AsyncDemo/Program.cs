@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Dynamic;
+using System.Text;
 
 namespace AsyncDemo
 {
@@ -9,6 +10,7 @@ namespace AsyncDemo
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
             RunDownloadAsync();
         }
 
@@ -33,8 +35,8 @@ namespace AsyncDemo
         {
             HttpClient client = new HttpClient();
             var url = $"https://vicove.com/vic-{i}";
-            var responce =  await client.GetAsync(url);
-            var vic = await responce.Content.ReadAsStringAsync();
+            var response =  await client.GetAsync(url);
+            var vic = await response.Content.ReadAsStringAsync();
             Console.WriteLine(vic);
         }
         
