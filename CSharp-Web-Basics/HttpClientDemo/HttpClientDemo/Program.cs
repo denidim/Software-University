@@ -48,7 +48,7 @@ namespace HttpClientDemo
 
             Console.WriteLine(request);
 
-            string form = $"<form method=post><input name=username /><input name=password /><input type=submit /></form>";
+            string form = $"<form action=/tweet method=post><input name=username /><input name=password /><input type=submit /></form>";
 
             string html = $"<h1>Hello from Demo Server {DateTime.Now}</h1>{form}";
 
@@ -57,7 +57,9 @@ namespace HttpClientDemo
             string response = "HTTP/1.1 200 OK" + NewLine +
                               "Server: Demo Server" + NewLine +
                               "Content-Type: text/html; charset=utf-8" + NewLine +
-                              "Content-Lenght: " + byteLength + NewLine +
+                              "X-Server-Version: 1.0" + NewLine +
+                              "Set-Cookie: sid=12345gsdgs" + NewLine +
+                              "Content-Length: " + byteLength + NewLine +
                               NewLine +
                               html +
                               NewLine;
