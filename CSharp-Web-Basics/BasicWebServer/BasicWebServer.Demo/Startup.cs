@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using BasicWebServer.Server;
@@ -26,6 +27,16 @@ namespace BasicWebServer.Demo
 
         private const string FileName = "content.txt";
 
+        private const string LoginForm = @"<form action='/Login' method='POST'>
+            Username: <input type='text' name='Username'/>
+            Password: <input type='text' name='Password'/>
+            <input type='submit' value ='Log In' />
+        </form>";
+
+
+        private const string Username = "user";
+        private const string Password = "pass";
+
         public static async Task Main()
         {
             await DownloadSitesAsTextFile(Startup.FileName,
@@ -38,14 +49,64 @@ namespace BasicWebServer.Demo
                 .MapPost("/HTML", new TextResponse("", Startup.AddFormDataAction))
                 .MapGet("/Content", new HtmlResponse(Startup.DownloadForm))
                 .MapPost("/Content", new TextFileResponse(Startup.FileName))
-                .MapGet("/Cookies", new HtmlResponse("", Startup.AddCookiesAction)));
+                .MapGet("/Cookies", new HtmlResponse("", Startup.AddCookiesAction))
+                .MapGet("/Session", new TextResponse("", Startup.DisplaySessionInfoAction))
+                .MapGet("/Login", new HtmlResponse(Startup.LoginForm))
+                .MapPost("/Login", new HtmlResponse("", Startup.LoginAction)));
 
             await server.Start();
         }
 
+        private static void LoginAction(Request request, Response response)
+        {
+            request.Session.Clear();
+
+            var bodyText = "";
+
+            var usernameMatches = request.Form["Username"] == Startup.Username;
+            var passwordMatches = request.Form["Password"] == Startup.Password;
+
+            if (usernameMatches && passwordMatches)
+            {
+                request.Session[Session.SessionUserKey] = "MyUserId";
+                response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
+
+                bodyText = "<h3>Logged successfully!</h3>";
+            }
+            else
+            {
+                bodyText = Startup.LoginForm;
+            }
+
+            response.Body = "";
+            response.Body += bodyText;
+        }
+
+        private static void DisplaySessionInfoAction(Request request, Response response)
+        {
+            var bodyText = "";
+
+            var sessionExists = request.Session.ContainsKey(Session.SessionCurrentDateKey);
+
+            if (sessionExists)
+            {
+                var currentDate = request.Session[Session.SessionCurrentDateKey];
+                bodyText = $"stored date: {currentDate}!";
+            }
+            else
+            {
+                bodyText = "Current date stored!";
+            }
+
+            response.Body = "";
+            response.Body += bodyText;
+        }
+
         private static void AddCookiesAction(Request request, Response response)
         {
-            var requestHasCookies = request.Cookies.Any();
+            var requestHasCookies = request.Cookies
+                .Any(c => c.Name != Session.SessionCookieName);
+
             var bodyText = "";
 
             if (requestHasCookies)
@@ -77,13 +138,13 @@ namespace BasicWebServer.Demo
 
             response.Body = bodyText;
         }
-            
+
 
         private static void AddFormDataAction(Request request, Response response)
         {
             response.Body = "";
 
-            foreach (var (key,value) in request.Form)
+            foreach (var (key, value) in request.Form)
             {
                 response.Body += $"{key} - {value}";
                 response.Body += Environment.NewLine;
