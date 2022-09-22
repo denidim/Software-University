@@ -12,12 +12,9 @@ namespace BasicWebServer.Server
 {
     public class HttpServer
     {
+        private readonly int port;
         private readonly IPAddress ipAddress;
-
-        private  readonly int port;
-
         private readonly TcpListener serverListener;
-
         private readonly RoutingTable routingTable;
 
         public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTableConfiguration)
