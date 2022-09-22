@@ -52,9 +52,34 @@ namespace BasicWebServer.Demo
                 .MapGet("/Cookies", new HtmlResponse("", Startup.AddCookiesAction))
                 .MapGet("/Session", new TextResponse("", Startup.DisplaySessionInfoAction))
                 .MapGet("/Login", new HtmlResponse(Startup.LoginForm))
-                .MapPost("/Login", new HtmlResponse("", Startup.LoginAction)));
+                .MapPost("/Login", new HtmlResponse("", Startup.LoginAction))
+                .MapGet("/Logout", new HtmlResponse("",Startup.LogoutAction))
+                .MapGet("/UserProfile", new HtmlResponse("",Startup.GetUserDataAction)));
 
             await server.Start();
+        }
+
+        private static void GetUserDataAction(Request request, Response response)
+        {
+            if (request.Session.ContainsKey(Session.SessionUserKey))
+            {
+                response.Body = "";
+                response.Body += $"<h3>Currently logged-in user is with username '{Username}'</h3>";
+            }
+            else
+            {
+                response.Body = "";
+                response.Body += $"<h3>You should first log in - <a href='/Login'>Login</a> </h3>";
+            }
+        }
+
+        private static void LogoutAction(Request request, Response response)
+        {
+            request.Session.Clear();
+
+            response.Body = "";
+            response.Body += "<h3>Logged out successfully!</h3>";
+
         }
 
         private static void LoginAction(Request request, Response response)

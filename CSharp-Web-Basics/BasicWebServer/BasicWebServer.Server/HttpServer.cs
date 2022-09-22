@@ -13,7 +13,9 @@ namespace BasicWebServer.Server
     public class HttpServer
     {
         private readonly IPAddress ipAddress;
+
         private  readonly int port;
+
         private readonly TcpListener serverListener;
 
         private readonly RoutingTable routingTable;
@@ -51,6 +53,7 @@ namespace BasicWebServer.Server
 
                 _ = Task.Run(async () =>
                 {
+                    
                     var networkStream = connection.GetStream();
 
                     var requestText = await this.ReadRequest(networkStream);

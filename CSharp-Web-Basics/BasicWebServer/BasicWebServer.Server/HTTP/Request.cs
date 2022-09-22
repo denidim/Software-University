@@ -100,15 +100,15 @@ namespace BasicWebServer.Server.HTTP
         {
             var formCollection = new Dictionary<string, string>();
 
-            if (!headers.Contains(Header.ContentType)
-                || headers[Header.ContentType] != ContentType.FormUrlEncoded)
-                return formCollection;
-
-            var parsedResult = ParseFormData(body);
-
-            foreach (var (name,value) in parsedResult)
+            if (headers.Contains(Header.ContentType)
+                && headers[Header.ContentType] == ContentType.FormUrlEncoded)
             {
-                formCollection.Add(name,value);
+                var parsedResult = ParseFormData(body);
+
+                foreach (var (name, value) in parsedResult)
+                {
+                    formCollection.Add(name, value);
+                }
             }
 
             return formCollection;
