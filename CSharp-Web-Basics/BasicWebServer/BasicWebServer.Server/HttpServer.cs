@@ -62,9 +62,6 @@ namespace BasicWebServer.Server
 
                     var response = this.routingTable.MatchRequest(request);
 
-                    //Execute pre-render action for the response
-                    response.PreRenderAction?.Invoke(request, response);
-
                     AddSession(request, response);
 
                     await WriteResponce(networkStream, response);
