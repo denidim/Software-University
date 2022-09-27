@@ -1,13 +1,15 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using System;
+using BasicWebServer.Server.HTTP;
 
 namespace BasicWebServer.Server.Routing
 {
     public interface IRoutingTable
     {
-        IRoutingTable Map(string url, Method method, Response response);
+        IRoutingTable Map(Method method, string path, Func<Request,Response> responseFunction);
 
-        IRoutingTable MapGet(string url, Response response);
 
-        IRoutingTable MapPost(string url, Response response);
+        IRoutingTable MapGet(string path, Func<Request,Response> responseFunction);
+
+        IRoutingTable MapPost(string path, Func<Request, Response> responseFunction);
     }
 }
