@@ -10,12 +10,6 @@ namespace BasicWebServer.Demo.Controllers
 {
     public class UserController : Controller
     {
-        private const string LoginForm = @"<form action='/Login' method='POST'>
-            Username: <input type='text' name='Username'/>
-            Password: <input type='password' name='Password'/>
-            <input type='submit' value ='Log In' />
-        </form>";
-
         private const string Username = "user";
         private const string Password = "pass";
 
@@ -23,7 +17,7 @@ namespace BasicWebServer.Demo.Controllers
         {
         }
 
-        public Response Login() => Html(UserController.LoginForm);
+        public Response Login() => View();
 
         public Response LogInUser()
         {
