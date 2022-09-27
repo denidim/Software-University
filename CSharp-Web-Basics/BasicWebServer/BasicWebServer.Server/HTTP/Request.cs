@@ -159,5 +159,6 @@ namespace BasicWebServer.Server.HTTP
                 throw new InvalidOperationException($"Method '{method}' is not supported");
             }
         }
+
     }
 }
