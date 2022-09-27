@@ -12,7 +12,8 @@ namespace BasicWebServer.Server.Responses
     {
         private const char PathSeparator = '/';
 
-        public ViewResponse(string viewName, string controllerName) : base("", ContentType.Html)
+        public ViewResponse(string viewName, string controllerName, object model = null) 
+            : base("", ContentType.Html)
         {
             if (!viewName.Contains(PathSeparator))
             {
@@ -24,7 +25,36 @@ namespace BasicWebServer.Server.Responses
 
             var viewContent = File.ReadAllText(viewPath);
 
+            if (model != null)
+            {
+                viewContent = this.PopulateModel(viewContent, model);
+            }
+
             Body = viewContent;
+        }
+
+        private string PopulateModel(string viewContent, object model)
+        {
+            var data = model
+                .GetType()
+                .GetProperties()
+                .Select(pr => new
+                {
+                    pr.Name,
+                    value = pr.GetValue(model)
+                });
+
+            foreach (var entry in data)
+            {
+                const string openingBrackets = "{{";
+                const string closingBrackets = "}}";
+
+                viewContent = viewContent.Replace(
+                    $"{openingBrackets}{entry.Name}{closingBrackets}",
+                entry.value.ToString());
+            }
+
+            return viewContent;
         }
     }
 }
