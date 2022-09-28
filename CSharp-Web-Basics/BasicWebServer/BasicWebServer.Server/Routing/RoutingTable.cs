@@ -18,8 +18,10 @@ namespace BasicWebServer.Server.Routing
                 [Method.Delete] = new(StringComparer.InvariantCultureIgnoreCase),
         };
 
-
-        public IRoutingTable Map(Method method, string path, Func<Request, Response> responseFunction)
+        public IRoutingTable Map(
+            Method method,
+            string path,
+            Func<Request, Response> responseFunction)
         {
             Guard.AgainstNull(path,nameof(path));
             Guard.AgainstNull(responseFunction, nameof(responseFunction));
@@ -29,11 +31,15 @@ namespace BasicWebServer.Server.Routing
             return this;
         }
 
-        public IRoutingTable MapGet(string path, Func<Request, Response> responseFunction) =>
+        public IRoutingTable MapGet(
+            string path,
+            Func<Request, Response> responseFunction) =>
             Map(Method.Get, path, responseFunction);
 
 
-        public IRoutingTable MapPost(string path, Func<Request, Response> responseFunction) =>
+        public IRoutingTable MapPost(
+            string path, 
+            Func<Request, Response> responseFunction) =>
             Map(Method.Post, path, responseFunction);
 
         public Response MatchRequest(Request request)
