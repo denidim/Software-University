@@ -53,9 +53,37 @@ namespace BasicWebServer.Server.Routing
                 }
 
                 routingTable.Map(httpMethod, path, responseFunction);
+
+                MapDefaultRoutes(
+                    routingTable,
+                    httpMethod,
+                    controllerName,
+                    actionName,
+                    responseFunction);
             }
 
             return routingTable;
+        }
+
+        private static void MapDefaultRoutes(
+            IRoutingTable routingTable,
+            Method httpMethod,
+            string controllerName,
+            string actionName,
+            Func<Request, Response> responseFunction)
+        {
+            const string defaultActionName = "Index";
+            const string defaultControllerName = "Home";
+
+            if (actionName == defaultActionName)
+            {
+                routingTable.Map(httpMethod, $"/{controllerName}", responseFunction);
+
+                if (controllerName == defaultControllerName)
+                {
+                    routingTable.Map(httpMethod, "/", responseFunction);
+                }
+            }
         }
 
         private static Func<Request, Response> GetResponseFunction(MethodInfo controllerAction)
