@@ -1,17 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using BasicWebServer.Demo.Controllers;
+﻿using BasicWebServer.Demo.Controllers;
 using BasicWebServer.Server;
-using BasicWebServer.Server.Controller;
-using BasicWebServer.Server.HTTP;
-using BasicWebServer.Server.Responses;
+using BasicWebServer.Server.Routing;
+using System.Threading.Tasks;
 
 namespace BasicWebServer.Demo
 {
