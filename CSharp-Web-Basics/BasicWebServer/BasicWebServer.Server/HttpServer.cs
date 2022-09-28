@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using BasicWebServer.Server.Common;
 
 namespace BasicWebServer.Server
 {
@@ -18,12 +19,15 @@ namespace BasicWebServer.Server
         private readonly TcpListener serverListener;
         private readonly RoutingTable routingTable;
 
+        public readonly IServiceCollection ServiceCollection;
+
         public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAddress = IPAddress.Parse(ipAddress);
             this.port = port;
             this.serverListener = new TcpListener(this.ipAddress, port);
             routingTableConfiguration(this.routingTable = new RoutingTable());
+            ServiceCollection = new ServiceCollection();
         }
 
         public HttpServer(int port,Action<IRoutingTable> routingTable) 
@@ -58,7 +62,7 @@ namespace BasicWebServer.Server
 
                     Console.WriteLine(requestText);
 
-                    var request = Request.Parse(requestText);
+                    var request = Request.Parse(requestText, ServiceCollection);
 
                     var response = this.routingTable.MatchRequest(request);
 
