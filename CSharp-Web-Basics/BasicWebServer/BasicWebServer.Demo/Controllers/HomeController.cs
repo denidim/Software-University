@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using BasicWebServer.Demo.Models;
+using BasicWebServer.Server.Attributes;
 using BasicWebServer.Server.Controller;
 using BasicWebServer.Server.HTTP;
 
@@ -26,6 +27,7 @@ namespace BasicWebServer.Demo.Controllers
 
         public Response Html() => View();
 
+        [HttpPost]
         public Response HtmlFormPost()
         {
             var name = this.Request.Form["Name"];
