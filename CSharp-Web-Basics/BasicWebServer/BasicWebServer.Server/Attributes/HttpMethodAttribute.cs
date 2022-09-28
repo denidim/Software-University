@@ -9,8 +9,7 @@ namespace BasicWebServer.Server.Attributes
         public Method HttpMethod { get; }
 
         protected HttpMethodAttribute(Method httpMethod)
-        {
-            HttpMethod = httpMethod;
-        }
+            => HttpMethod = httpMethod;
+
     }
 }

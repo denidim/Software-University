@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Responses;
+using System.Runtime.CompilerServices;
 
 namespace BasicWebServer.Server.Controller
 {
@@ -16,7 +11,7 @@ namespace BasicWebServer.Server.Controller
             this.Request = request;
         }
 
-        protected Request Request { get; private init; }
+        protected Request Request { get; set; }
 
         protected Response Text(string text) => new TextResponse(text);
 

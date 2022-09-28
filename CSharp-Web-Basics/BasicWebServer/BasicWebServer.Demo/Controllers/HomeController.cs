@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using BasicWebServer.Demo.Models;
+﻿using BasicWebServer.Demo.Models;
 using BasicWebServer.Server.Attributes;
 using BasicWebServer.Server.Controller;
 using BasicWebServer.Server.HTTP;
+using System.Linq;
+using System.Text;
+using System.Web;
 
 namespace BasicWebServer.Demo.Controllers
 {
@@ -21,7 +17,10 @@ namespace BasicWebServer.Demo.Controllers
                 
         }
 
+        [HttpGet]
         public Response Index() => Text("Hello from the server!");
+
+        public Response Student(string name, int age) => Text($"I'm {name} and I'm {age} years old");
 
         public Response Redirect() => Redirect("https://softuni.org");
 

@@ -73,11 +73,7 @@ namespace BasicWebServer.Server.HTTP
 
             var parts = stringParts.Split("?",2);
 
-            if (parts.Length == 0)
-            {
-                url = parts[0];
-            }
-            else
+            if (parts.Length > 0)
             {
                 var queryParams = parts[1].Split("&");
 
@@ -90,6 +86,8 @@ namespace BasicWebServer.Server.HTTP
                     }
                 }
             }
+
+            url = parts[0];
 
             return (url, query);
 
@@ -197,6 +195,5 @@ namespace BasicWebServer.Server.HTTP
                 throw new InvalidOperationException($"Method '{method}' is not supported");
             }
         }
-
     }
 }
