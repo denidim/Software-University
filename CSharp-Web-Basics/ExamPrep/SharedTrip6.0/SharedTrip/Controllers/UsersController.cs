@@ -10,6 +10,10 @@ namespace SharedTrip.Controllers
         {
         }
 
+        public Response Login() => View();
+
+        public Response Register() => View();
 
     }
+
 }
