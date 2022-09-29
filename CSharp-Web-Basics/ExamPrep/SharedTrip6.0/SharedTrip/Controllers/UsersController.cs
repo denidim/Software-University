@@ -3,9 +3,9 @@ using BasicWebServer.Server.HTTP;
 
 namespace SharedTrip.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
-        public UserController(Request request) 
+        public UsersController(Request request) 
             : base(request)
         {
         }
