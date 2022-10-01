@@ -3,7 +3,7 @@
     public class DatabaseConfiguration
     {
         // ReSharper disable once InconsistentNaming
-        public const string ConnectionString =
-            @"Server=.\SQLEXPRESS;Database=SMS;Trusted_Connection=True;Integrated Security=True;";
+        public const string ConnectionString = 
+            @"Server=.;Database=SMS;User Id=sa;Password=mssqlDB1;";
     }
 }
