@@ -32,8 +32,15 @@ namespace MVC_Intro_Demo.Controllers
             };
 
         [ActionName("My-Products")]
-        public IActionResult All()
+        public IActionResult All(string key)
         {
+            if(key != null)
+            {
+                var foundProduct = this.products.Where(x=>x.Name.ToLower().Contains(key.ToLower()));
+
+                return View(foundProduct);
+            }
+
             return View(this.products);
         }
 
