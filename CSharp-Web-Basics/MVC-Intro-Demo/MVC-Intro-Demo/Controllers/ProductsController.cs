@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MVC_Intro_Demo.Models;
+using System.Text;
 using System.Text.Json;
 
 namespace MVC_Intro_Demo.Controllers
@@ -54,6 +55,17 @@ namespace MVC_Intro_Demo.Controllers
             };
 
             return Json(products, options);
+        }
+
+        public IActionResult AllAsText()
+        {
+            var text = new StringBuilder();
+            foreach (var item in products)
+            {
+                text.AppendLine($"Product {item.Id}: {item.Name} - {item.Price}lv");
+            }
+
+            return Content(text.ToString().TrimEnd());
         }
     }
 }
