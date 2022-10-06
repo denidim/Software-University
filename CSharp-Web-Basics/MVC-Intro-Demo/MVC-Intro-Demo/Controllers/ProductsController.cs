@@ -31,7 +31,8 @@ namespace MVC_Intro_Demo.Controllers
                 }
             };
 
-        public ActionResult All()
+        [ActionName("My-Products")]
+        public IActionResult All()
         {
             return View(this.products);
         }
