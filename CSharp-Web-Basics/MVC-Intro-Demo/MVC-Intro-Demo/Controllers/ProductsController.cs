@@ -36,7 +36,7 @@ namespace MVC_Intro_Demo.Controllers
         {
             if(key != null)
             {
-                var foundProduct = this.products.Where(x=>x.Name.ToLower().Contains(key.ToLower()));
+                IEnumerable<ProductViewModel> foundProduct = this.products.Where(x=>x.Name.ToLower().Contains(key.ToLower()));
 
                 return View(foundProduct);
             }
