@@ -18,7 +18,7 @@
             /// <summary>
             /// Max content length
             /// </summary>
-            public const int ContextMaxLength = 50;
+            public const int ContextMaxLength = 1500;
         }
     }
 }
