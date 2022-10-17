@@ -3,18 +3,39 @@ using Microsoft.EntityFrameworkCore;
 using WebShopDemo.Core.Contracts;
 using WebShopDemo.Core.Data;
 using WebShopDemo.Core.Data.Common;
+using WebShopDemo.Core.Data.Models.Account;
 using WebShopDemo.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(opt =>
+{
+    opt.SignIn.RequireConfirmedAccount = true;
+
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequireDigit = true;
+
+    opt.User.RequireUniqueEmail = true;
+
+    opt.Lockout.MaxFailedAccessAttempts = 5;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProductService, ProductService>();

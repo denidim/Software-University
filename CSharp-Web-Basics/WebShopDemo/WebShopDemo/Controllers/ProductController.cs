@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebShopDemo.Core.Contracts;
-using WebShopDemo.Core.Data.Models;
 using WebShopDemo.Core.Models;
 
 namespace WebShopDemo.Controllers
@@ -8,6 +8,7 @@ namespace WebShopDemo.Controllers
     /// <summary>
     /// Web shop products
     /// </summary>
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService productService;
@@ -21,6 +22,7 @@ namespace WebShopDemo.Controllers
         /// List all products
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Products";
