@@ -58,8 +58,6 @@ namespace WebShopDemo.Controllers
                 ModelState.AddModelError("", item.Description);
             }
 
-            
-
             return View(model);
         }
 
@@ -94,16 +92,13 @@ namespace WebShopDemo.Controllers
                     {
                         return Redirect(model.ReturnUrl);
                     }
-
                     return RedirectToAction("Index", "Home");
                 }
             }
 
             ModelState.AddModelError("", "Invalid login");
             return View(model);
-
         }
-
 
         public async Task<IActionResult> Logout()
         {

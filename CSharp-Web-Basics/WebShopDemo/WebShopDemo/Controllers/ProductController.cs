@@ -22,7 +22,8 @@ namespace WebShopDemo.Controllers
         /// List all products
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Products";
