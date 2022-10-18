@@ -5,7 +5,6 @@ using WebShopDemo.Models;
 
 namespace WebShopDemo.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,19 +14,19 @@ namespace WebShopDemo.Controllers
             _logger = logger;
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

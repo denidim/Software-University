@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebShopDemo.Core.Constants;
 using WebShopDemo.Core.Data.Models.Account;
 using WebShopDemo.Models;
 
@@ -9,15 +10,17 @@ namespace WebShopDemo.Controllers
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
-
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(
             UserManager<ApplicationUser> _userManager,
-            SignInManager<ApplicationUser> _signInManager)
+            SignInManager<ApplicationUser> _signInManager,
+            RoleManager<IdentityRole> _roleManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            roleManager = _roleManager;
         }
 
         [HttpGet]
@@ -50,7 +53,8 @@ namespace WebShopDemo.Controllers
             var result =  await userManager.CreateAsync(user, model.Password);
 
             await userManager
-                    .AddClaimAsync(user, new System.Security.Claims.Claim("first_name", user.FirstName ?? user.Email));
+                    .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
+
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
@@ -110,6 +114,26 @@ namespace WebShopDemo.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> CreateRoles()
+        {
+            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Manager));
+            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Supervisor));
+            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> AddUsersToRoles()
+        {
+            var user1 = await userManager.FindByEmailAsync("pesho@abv.bg");
+            var user2 = await userManager.FindByEmailAsync("fs900220@gmail.com");
+
+            await userManager.AddToRoleAsync(user1, RoleConstants.Manager);
+            await userManager.AddToRolesAsync(user2, new string[] { RoleConstants.Manager,RoleConstants.Supervisor});
 
             return RedirectToAction("Index", "Home");
         }
