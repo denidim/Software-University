@@ -8,8 +8,7 @@ namespace WebShopDemo.Controllers
     /// <summary>
     /// Web shop products
     /// </summary>
-    [Authorize]
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductService productService;
 
@@ -22,7 +21,7 @@ namespace WebShopDemo.Controllers
         /// List all products
         /// </summary>
         /// <returns></returns>
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index()
         {

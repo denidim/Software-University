@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebShopDemo.Core.Data.Models.Account;
 using WebShopDemo.Models;
 
 namespace WebShopDemo.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -20,6 +21,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             var model = new RegisterViewModel();
@@ -28,6 +30,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -46,6 +49,8 @@ namespace WebShopDemo.Controllers
 
             var result =  await userManager.CreateAsync(user, model.Password);
 
+            await userManager
+                    .AddClaimAsync(user, new System.Security.Claims.Claim("first_name", user.FirstName ?? user.Email));
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
@@ -62,6 +67,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string? returnUrl = null)
         {
             var model = new LoginViewModel()
@@ -73,6 +79,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
