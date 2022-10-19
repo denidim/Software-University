@@ -1,12 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using WebShopDemo.Core.Constants
 @using WebShopDemo.Core.Data.Models.Account
 @inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    var firstName = User.Claims
+                       .FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName)
+                       ?.Value ?? string.Empty;
+}
+
+<h1>@ViewBag.Product @ViewBag.Home @ViewBag.UserFirstName</h1>
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @ViewBag.UserFirstName!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName @ViewBag.UserFirstName </a><!--@@user.FirstName</a>-->
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using NuGet.Protocol.Core.Types;
 using WebShopDemo.Core.Constants;
 
 namespace WebShopDemo.Controllers
@@ -8,6 +9,7 @@ namespace WebShopDemo.Controllers
     [Authorize]
     public class BaseController : Controller
     {
+
         public string UserFirstName
         {
             get
