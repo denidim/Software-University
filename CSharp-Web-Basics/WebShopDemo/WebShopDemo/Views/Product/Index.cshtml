@@ -8,6 +8,7 @@
             <td>Name</td>
             <td>Price</td>
             <td>Quantity</td>
+            <td>Add</td>
             <td>Buy</td>
             <td>Delete</td>
         </tr>
@@ -19,6 +20,7 @@
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>@item.Quantity</td>
+                <td><button class="btn-primary btn-success">Add</button></td>
                 <td><button class="btn-primary btn-success">Buy</button></td>
                 <td>
                     <form asp-action="Delete" asp-controller="Product" method="post">
