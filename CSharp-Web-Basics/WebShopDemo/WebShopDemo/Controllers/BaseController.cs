@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NuGet.Protocol.Core.Types;
+using System.Security.Claims;
 using WebShopDemo.Core.Constants;
 
 namespace WebShopDemo.Controllers
@@ -9,6 +10,15 @@ namespace WebShopDemo.Controllers
     [Authorize]
     public class BaseController : Controller
     {
+
+        public string UserId
+        {
+            get 
+            {
+                return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+        }
 
         public string UserFirstName
         {
