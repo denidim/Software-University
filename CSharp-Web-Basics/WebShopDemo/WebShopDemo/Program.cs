@@ -6,6 +6,7 @@ using WebShopDemo.Core.Data;
 using WebShopDemo.Core.Data.Common;
 using WebShopDemo.Core.Data.Models.Account;
 using WebShopDemo.Core.Services;
+using WebShopDemo.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +47,10 @@ builder.Services.AddAuthorization(options =>
         && context.User.IsInRole(RoleConstants.Supervisor)));
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(config =>
+{
+    config.ModelBinderProviders.Insert(0,new ExtractYearModelBinderProvider());
+});
 
 builder.Services.AddScoped<IProductService, ProductService>();
 
