@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using WebShopDemo.Core.Contracts;
 using WebShopDemo.Core.Data.Common;
 using WebShopDemo.Core.Data.Models;
