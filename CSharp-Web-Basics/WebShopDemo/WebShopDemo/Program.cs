@@ -50,7 +50,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddControllersWithViews(config =>
 {
     config.ModelBinderProviders.Insert(0,new ExtractYearModelBinderProvider());
-});
+}).AddNewtonsoftJson();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 
