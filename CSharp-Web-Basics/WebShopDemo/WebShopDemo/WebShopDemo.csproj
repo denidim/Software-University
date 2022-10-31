@@ -28,4 +28,10 @@
     <ProjectReference Include="..\WebShopDemo.Core\WebShopDemo.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

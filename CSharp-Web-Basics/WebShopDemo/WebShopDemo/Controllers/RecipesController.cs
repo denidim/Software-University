@@ -1,47 +1,82 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebShopDemo.ModelBinders;
+using WebShopDemo.Core.Models.Recipes;
 
 namespace WebShopDemo.Controllers
 {
-    public class RecipeTimeInputModel
-    {
-        public int PreparationTime { get; set; }
-
-
-        public int CookingTime { get; set; }
-        
-    }
-
-    public enum RecipeType
-    {
-        Unknow = 0,
-        FastFood = 1,
-        LongCookingMeal = 2,
-    }
-
-    public class AddRecipeInputModel
-    {
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public RecipeType RecipeType { get; set; }
-
-        public DateTime FirstCooked { get; set; }
-
-        //[ModelBinder(typeof(ExtractYearModelBinder))]
-        public int Year { get; set; }
-
-        public RecipeTimeInputModel Time { get; set; }
-
-        public string[] Ingredients { get; set; }
-    }
-
     public class RecipesController : BaseController
     {
-        public IActionResult Add(AddRecipeInputModel inputModel)
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+        public RecipesController(IWebHostEnvironment webHostEnvironment)
         {
-            return this.Json(inputModel);
+            this.webHostEnvironment = webHostEnvironment;
         }
+
+        public IActionResult Add()
+        {
+            string[] ingredians = {"Meat","Pottato" };
+
+            var model = new AddRecipeInputMopdel
+            {
+                Name = "YourName",
+                RecipeType = Core.Data.Models.RecipeType.Unknow,
+                FirstCooked = DateTime.UtcNow,
+                Time = new RecipeTimeInputModel
+                {
+                    CookingTime = 10,
+                    PreparationTime = 5,
+                },
+                Description = "YourAwesomeMeal",
+                Ingredients = ingredians
+
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddRecipeInputMopdel inputModel)
+        {
+            if(inputModel.Image != null)
+            {
+                if (!inputModel.Image.FileName.EndsWith(".png"))
+                {
+                    this.ModelState.AddModelError(nameof(inputModel.Image), "Invalid file type.");
+                }
+                if (inputModel.Image.Length > 10 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("Image", "File too big");
+                }
+            }
+            
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            //TODO: Save data
+            if(inputModel.Image != null)
+            {
+                using (FileStream fs = new FileStream(
+                this.webHostEnvironment.WebRootPath + "/user.png", FileMode.Create))
+                {
+                    inputModel.Image.CopyToAsync(fs);
+                }
+            }
+            
+
+            return RedirectToAction("ThankYou");
+        }
+
+        public IActionResult ThankYou()
+        {
+            return View();
+        }
+
+        public IActionResult Image()
+        {
+            return this.PhysicalFile(this.webHostEnvironment.WebRootPath + "/user.png", "image/png");
+        }
+        
     }
 }
