@@ -21,5 +21,9 @@ namespace WebShopDemo.Core.Contracts
         Task Add(ProductDto productDto);
 
         Task Delete(Guid id);
+
+        Task<ProductDto> GetForEditAsync(string id);
+
+        Task EditAsync(ProductDto model);
     }
 }

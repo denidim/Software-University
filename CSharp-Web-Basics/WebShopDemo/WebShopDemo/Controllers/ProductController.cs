@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using WebShopDemo.Core.Constants;
 using WebShopDemo.Core.Contracts;
 using WebShopDemo.Core.Models;
@@ -64,8 +65,33 @@ namespace WebShopDemo.Controllers
         [Authorize(Policy = "CanDeleteProduct")]
         public async Task<IActionResult> Delete([FromForm]string id)
         {
-            var guidId = Guid.Parse(id);
+            var guidId =  Guid.Parse(id);
             await productService.Delete(guidId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet]
+        [Authorize(Policy = "CanDeleteProduct")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = productService.GetForEditAsync(id);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize(Policy = "CanDeleteProduct")]
+        public async Task<IActionResult> Edit(ProductDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await productService.EditAsync(model);
 
             return RedirectToAction(nameof(Index));
         }

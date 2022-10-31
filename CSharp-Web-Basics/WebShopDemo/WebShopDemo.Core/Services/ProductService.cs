@@ -74,5 +74,29 @@ namespace WebShopDemo.Core.Services
                 Quantity = p.Quantity
             }).ToListAsync();
         }
+
+        public async Task<ProductDto> GetForEditAsync(string id)
+        {
+            var product =  await repo.GetByIdAsync<Product>(id);
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Quantity = product.Quantity
+            }; 
+        }
+
+        public async Task EditAsync(ProductDto model)
+        {
+            var entity = await repo.GetByIdAsync<Product>(model.Id);
+
+            entity.Name = model.Name;
+            entity.Price = model.Price;
+            entity.Quantity = model.Quantity;
+
+            await repo.SaveChangesAsync();
+        }
     }
 }
