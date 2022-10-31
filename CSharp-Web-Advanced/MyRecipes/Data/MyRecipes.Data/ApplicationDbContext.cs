@@ -6,11 +6,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using MyRecipes.Data.Common.Models;
-    using MyRecipes.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+
+    using MyRecipes.Data.Common.Models;
+    using MyRecipes.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
