@@ -1,11 +1,10 @@
 ﻿namespace MyRecipes.Services.Data
 {
-    using System;
     using System.Linq;
 
     using MyRecipes.Data.Common.Repositories;
     using MyRecipes.Data.Models;
-    using MyRecipes.Web.ViewModels.Home;
+    using MyRecipes.Services.Data.DTOs;
 
     public class GetCountService : IGetCountsSerice
     {
@@ -26,9 +25,9 @@
             this.recipesRepo = recipesRepo;
         }
 
-        IndexViewModel IGetCountsSerice.GetCounts()
+        public CountsDto GetCounts()
         {
-            var data = new IndexViewModel
+            var data = new CountsDto()
             {
                 CategoriesCount = this.categoriesRepo.All().Count(),
                 ImagesCount = this.imagesRepo.All().Count(),

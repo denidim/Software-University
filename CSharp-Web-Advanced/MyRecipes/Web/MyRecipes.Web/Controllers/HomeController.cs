@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using MyRecipes.Services.Data;
     using MyRecipes.Web.ViewModels;
+    using MyRecipes.Web.ViewModels.Home;
 
     // 1. ApplicationDbContext
     // 2. Repositories
@@ -20,7 +21,15 @@
 
         public IActionResult Index()
         {
-            var viewModel = this.getCountsSerice.GetCounts();
+            var counts = this.getCountsSerice.GetCounts();
+
+            var viewModel = new IndexViewModel
+            {
+                CategoriesCount = counts.CategoriesCount,
+                ImagesCount = counts.ImagesCount,
+                IngredientsCount = counts.IngredientsCount,
+                RecipesCount = counts.RecipesCount,
+            };
 
             return this.View(viewModel);
         }
