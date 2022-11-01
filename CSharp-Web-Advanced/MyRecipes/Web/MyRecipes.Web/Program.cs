@@ -15,6 +15,7 @@
     using MyRecipes.Data.Models;
     using MyRecipes.Data.Repositories;
     using MyRecipes.Data.Seeding;
+    using MyRecipes.Services.Data;
     using MyRecipes.Services.Mapping;
     using MyRecipes.Services.Messaging;
     using MyRecipes.Web.ViewModels;
@@ -62,6 +63,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IGetCountsSerice, GetCountService>();
         }
 
         private static void Configure(WebApplication app)
