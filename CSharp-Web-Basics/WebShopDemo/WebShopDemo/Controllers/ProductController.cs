@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using WebShopDemo.Core.Constants;
 using WebShopDemo.Core.Contracts;
 using WebShopDemo.Core.Models;
@@ -35,7 +34,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{RoleConstants.Manager}, {RoleConstants.Supervisor}")]
+        [Authorize(Roles = $"{RoleConstants.Manager}")]
         public IActionResult Add()
         {
             var model = new ProductDto();
@@ -46,7 +45,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{RoleConstants.Manager}, {RoleConstants.Supervisor}")]
+        [Authorize(Roles = $"{RoleConstants.Manager}")]
         public async Task<IActionResult> Add(ProductDto model)
         {
             ViewData["Title"] = "Add new Product";

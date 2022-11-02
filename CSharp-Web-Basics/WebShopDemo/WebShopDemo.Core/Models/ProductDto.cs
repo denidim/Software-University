@@ -37,5 +37,11 @@ namespace WebShopDemo.Core.Models
         /// </summary>
         [Range(1,int.MaxValue)]
         public int Quantity { get; set; }
+
+        /// <summary>
+        /// Product Description
+        /// </summary>
+        [MaxLength(200)]
+        public string? Description { get; set; }
     }
 }

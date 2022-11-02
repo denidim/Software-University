@@ -37,7 +37,9 @@ namespace WebShopDemo.Core.Services
             {
                 Name = productDto.Name,
                 Price = productDto.Price,
-                Quantity = productDto.Quantity
+                Quantity = productDto.Quantity,
+                Description = productDto.Description,
+                
             };
 
             await repo.AddAsync(product);
@@ -71,7 +73,8 @@ namespace WebShopDemo.Core.Services
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                Quantity = p.Quantity
+                Quantity = p.Quantity,
+                Description = p.Description
             }).ToListAsync();
         }
 
@@ -84,7 +87,8 @@ namespace WebShopDemo.Core.Services
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
-                Quantity = product.Quantity
+                Quantity = product.Quantity,
+                Description = product.Description
             };
 
             return productDto;
@@ -97,6 +101,7 @@ namespace WebShopDemo.Core.Services
             entity.Name = model.Name;
             entity.Price = model.Price;
             entity.Quantity = model.Quantity;
+            entity.Description = model.Description;
 
             await repo.SaveChangesAsync();
         }

@@ -2,13 +2,17 @@
 
 <h1>@ViewData["Title"]</h1>
 
+
+<form asp-action="Add" asp-controller="Product" method="get">
+    <button class="btn-primary btn-success">Add</button>
+</form>
+
 <table class="table table-hover">
     <thead>
         <tr>
             <td>Name</td>
             <td>Price</td>
             <td>Quantity</td>
-            <td>Add</td>
             <td>Buy</td>
             <td>Edit</td>
             <td>Delete</td>
@@ -21,7 +25,6 @@
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>@item.Quantity</td>
-                <td><button class="btn-primary btn-success">Add</button></td>
                 <td>
                     <form asp-action="Buy" asp-controller="Product" method="get">
                         <input name="id" type="hidden" value="@item.Id" />
