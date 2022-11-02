@@ -73,17 +73,17 @@ namespace WebShopDemo.Controllers
 
 
         [HttpGet]
-        [Authorize(Policy = "CanDeleteProduct")]
-        public async Task<IActionResult> Edit(string id)
+        [Authorize(Roles = RoleConstants.Manager)]
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var model = productService.GetForEditAsync(id);
+            var model =await productService.GetForEditAsync(id);
 
             return View(model);
         }
 
 
         [HttpPost]
-        [Authorize(Policy = "CanDeleteProduct")]
+        [Authorize(Roles = RoleConstants.Manager)]
         public async Task<IActionResult> Edit(ProductDto model)
         {
             if (!ModelState.IsValid)

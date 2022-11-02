@@ -75,17 +75,19 @@ namespace WebShopDemo.Core.Services
             }).ToListAsync();
         }
 
-        public async Task<ProductDto> GetForEditAsync(string id)
+        public async Task<ProductDto> GetForEditAsync(Guid id)
         {
             var product =  await repo.GetByIdAsync<Product>(id);
 
-            return new ProductDto
+            var productDto = new ProductDto()
             {
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Quantity = product.Quantity
-            }; 
+            };
+
+            return productDto;
         }
 
         public async Task EditAsync(ProductDto model)

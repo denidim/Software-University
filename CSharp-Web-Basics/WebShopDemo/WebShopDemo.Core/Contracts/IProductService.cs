@@ -22,7 +22,7 @@ namespace WebShopDemo.Core.Contracts
 
         Task Delete(Guid id);
 
-        Task<ProductDto> GetForEditAsync(string id);
+        Task<ProductDto> GetForEditAsync(Guid id);
 
         Task EditAsync(ProductDto model);
     }
