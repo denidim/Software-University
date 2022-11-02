@@ -18,7 +18,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Instructions"></label>
-        <textarea asp-for="Instructions" class="form-control" rows="5"></textarea> 
+        <textarea asp-for="Instructions" class="form-control" rows="5"></textarea>
         <span asp-validation-for="Instructions" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -41,11 +41,24 @@
         <select asp-for="CategoryId" class="form-control" asp-items="categoryItems"></select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div id="IngredientsContainer">
+        <label asp-for="Ingredients"></label>
+        <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
     </div>
-
     <input type="submit" class="button btn-primary" />
 </form>
+
+
+@section Scripts{
+    <script>
+        //Ingredients[0].IngredientName
+        //Ingredients[0].Quantity
+        var ingredientindex = 0;
+        function AddMoreIngredients() {
+            console.log("AddMoreIngredients()")
+            $("#IngredientsContainer")
+                .append("<div class='form-control'>Name: <input class='form-control' type='text' name='Ingredients[" + ingredientindex + "].IngredientName' /> Quantity: <input class='form-control' type='text' name='Ingredients[" + ingredientindex + "].Quantity' /></div>");
+            ingredientindex++;
+        }
+    </script>
+}
