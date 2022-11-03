@@ -18,7 +18,7 @@ namespace WebShopDemo.Core.Contracts
         /// </summary>
         /// <param name="productDto">product model</param>
         /// <returns></returns>
-        Task Add(ProductDto productDto);
+        Task AddAsync(ProductDto productDto);
 
         Task Delete(Guid id);
 

@@ -31,7 +31,7 @@ namespace WebShopDemo.Core.Services
         /// </summary>
         /// <param name="productDto">product model</param>
         /// <returns></returns>
-        public async Task Add(ProductDto productDto)
+        public async Task AddAsync(ProductDto productDto)
         {
             var product = new Product()
             {

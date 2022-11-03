@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<IRepository, Repository>();
 
 var app = builder.Build();
 

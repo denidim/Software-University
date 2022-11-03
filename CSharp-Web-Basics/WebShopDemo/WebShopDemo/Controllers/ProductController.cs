@@ -55,7 +55,7 @@ namespace WebShopDemo.Controllers
                 return View(model);
             }
 
-            await productService.Add(model);
+            await productService.AddAsync(model);
 
             return RedirectToAction(nameof(Index));
         }

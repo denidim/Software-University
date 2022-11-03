@@ -41,16 +41,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("CanDeleteProduct", policy 
-        => policy.RequireAssertion(context 
+    options.AddPolicy("CanDeleteProduct", policy
+        => policy.RequireAssertion(context
         => context.User.IsInRole(RoleConstants.Manager)
         && context.User.IsInRole(RoleConstants.Supervisor)));
 });
 
 builder.Services.AddControllersWithViews(config =>
 {
-    config.ModelBinderProviders.Insert(0,new ExtractYearModelBinderProvider());
-}).AddNewtonsoftJson();
+    config.ModelBinderProviders.Insert(0, new ExtractYearModelBinderProvider());
+})  .AddNewtonsoftJson()
+    .AddXmlSerializerFormatters();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 
