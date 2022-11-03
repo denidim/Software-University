@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebShopDemo.Core.Contracts;
-using WebShopDemo.Core.Data.Common;
-using WebShopDemo.Core.Data.Models;
 using WebShopDemo.Core.Models;
 
 namespace WebShopDemo.Controllers
@@ -33,7 +31,7 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(ProductDto product)
+        public async Task<IActionResult> Post(ProductDto product)
         {
             await productService.AddAsync(product);
 
@@ -41,14 +39,14 @@ namespace WebShopDemo.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(ProductDto product)
+        public async Task<IActionResult> Put(ProductDto product)
         {
             await productService.EditAsync(product);
 
             return Ok(product);
         }
 
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await productService.Delete(id);
 
