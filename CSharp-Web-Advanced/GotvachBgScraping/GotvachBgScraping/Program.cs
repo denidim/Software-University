@@ -9,8 +9,7 @@ namespace GotvachBgScraping
     {
         static async Task Main(string[] args)
         {
-            //foreach       foreach    getAllInfo
-            //categories => recipes => recipe
+            //TODO: remove all console ouput!
 
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -135,6 +134,9 @@ namespace GotvachBgScraping
         }
     }
 }
+
+//foreach       foreach    getAllInfo
+//categories => recipes => recipe
 
 //Get recipe name
 
