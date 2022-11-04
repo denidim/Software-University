@@ -9,132 +9,143 @@ namespace GotvachBgScraping
     {
         static async Task Main(string[] args)
         {
+            //foreach       foreach    getAllInfo
+            //categories => recipes => recipe
+
             Console.OutputEncoding = Encoding.UTF8;
 
-
-            //var url = @"https://www.1001recepti.com/recipes/";
-
-            var url = @"https://www.1001recepti.com/recipe/?recipe_id=2182323323323237-salata-s-kashu-i-sirene-bri";
+            var url = @"https://www.1001recepti.com/recipes/";
 
             var config = Configuration.Default.WithDefaultLoader();
 
             var doc = await BrowsingContext.New(config).OpenAsync(url);
 
-            GetCookingTime(doc);
-
             var categoriesNameAndUrl = GetCategories(doc); // category => all its recipes url
 
-            foreach (var item in categoriesNameAndUrl)
+            foreach (var item in categoriesNameAndUrl) //item.key = CategoryName 
             {
+                Console.WriteLine($"Category Name ====> {item.Key}");
+
                 var allRecipeDoc = await BrowsingContext.New(config).OpenAsync(item.Value);
 
-                var allSelection = allRecipeDoc.QuerySelectorAll(".ss > a").OfType<IHtmlAnchorElement>();
+                // take first howmany???
+                var allSelection = allRecipeDoc.QuerySelectorAll(".ss > a").OfType<IHtmlAnchorElement>().Take(100).ToList();
 
-                var recepieNameAndRecipeUrl = new Dictionary<string, string>();
-
-                foreach (var currRecipe in allSelection)//recepi url
+                for (int i = 0; i < allSelection.Count(); i++)
                 {
-                    var recepieUrl = currRecipe.GetAttribute("href");
-                    Console.WriteLine(recepieUrl);
+                    var recepieUrl = allSelection[i].GetAttribute("href");
 
-                    var currentRecipeDoc = await BrowsingContext.New(config).OpenAsync(recepieUrl);//null???
+                    if (recepieUrl == null)
+                    {
+                        throw new Exception("RecipeUrl is null");
+                    }
+
+                    var currentRecipeDoc = await BrowsingContext.New(config).OpenAsync(recepieUrl);
 
                     var name = GetRecipeName(currentRecipeDoc);
+                    Console.WriteLine(name);
 
-                    var products = GetProducts(currentRecipeDoc);
+                    var ingredients = GetIngredients(currentRecipeDoc);
 
-                    var recipe = GetRecipe(currentRecipeDoc);
+                    foreach (var ingredient in ingredients)
+                    {
+                        Console.WriteLine($"{ingredient.Key} - {ingredient.Value}");
+                    }
+
+                    var instructions = GetInstructions(currentRecipeDoc);
+                    Console.WriteLine(instructions);
 
                     var cookingTime = GetCookingTime(currentRecipeDoc);
+                    Console.WriteLine(cookingTime);
 
+                    var portinsCount = GetPortionsCount(currentRecipeDoc);
+                    Console.WriteLine(portinsCount);
+
+                    var imgSrc = GetImgSrc(currentRecipeDoc);
+                    Console.WriteLine(imgSrc);
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine(new string('=', 50));
+                    Console.WriteLine();
+                    Console.WriteLine();
                 }
             }
+        }
 
+        private static string? GetPortionsCount(IDocument currentRecipeDoc)
+        {
+            return currentRecipeDoc.QuerySelectorAll(".serv > .small > option")?.Where(x=>x.IsChecked())?.FirstOrDefault()?.TextContent;
+        }
+
+        private static string? GetImgSrc(IDocument currentRecipeDoc)
+        {
+            return currentRecipeDoc.QuerySelector("#r1 > p > img")?.GetAttribute("src");
         }
 
         private static string? GetCookingTime(IDocument currentRecipeDoc)
         {
             Console.WriteLine(currentRecipeDoc.QuerySelector("#rtime > span")?.TextContent);
+
             return currentRecipeDoc.QuerySelector("#rtime > span")?.TextContent;
         }
 
-        private static string? GetRecipe(IDocument currentRecipeDoc)
+        private static string? GetInstructions(IDocument currentRecipeDoc)
         {
-            return currentRecipeDoc.QuerySelector(".recipe_step")?.TextContent;
+            return currentRecipeDoc.QuerySelector(".recipe_step")?.TextContent.TrimStart();
         }
 
-        private static Dictionary<string, string> GetProducts(IDocument currentRecipeDoc)
+        private static Dictionary<string, string> GetIngredients(IDocument currentRecipeDoc)
         {
-            var quantity = currentRecipeDoc.QuerySelectorAll(".recipe_ingr > li > span > span");
             var products = currentRecipeDoc.QuerySelectorAll(".recipe_ingr > li > span > a");
+
+            var quantity = currentRecipeDoc.QuerySelectorAll(".recipe_ingr > li > span > span");
 
             var productWithQuantity = new Dictionary<string, string>();
 
-            for (int i = 0; i < quantity.Length; i++)
+            for (int i = 0; i < products.Length; i++)
             {
-                Console.WriteLine(products[i].TextContent);
-                Console.WriteLine(quantity[i].TextContent);
-                productWithQuantity[products[i].TextContent.ToString()] = quantity[i].TextContent ?? string.Empty;
+                productWithQuantity[products[i].TextContent.ToString()] = quantity[i].TextContent.ToString() ?? string.Empty;
             }
 
             return productWithQuantity;
         }
-
-        private static Dictionary<string,string> GetCategories(IDocument doc)
-        {
-            var categoryName = doc.QuerySelectorAll("#cont_recipe_browse_big > div > a").OfType<IHtmlAnchorElement>();
-
-            var result = new Dictionary<string, string>();
-
-            foreach (var item in categoryName)
-            {
-                Console.WriteLine(item.TextContent);
-                Console.WriteLine("Href = " + item.GetAttribute("href"));
-
-                var recepieUrl = item.GetAttribute("href");
-
-                result.Add(item.TextContent, recepieUrl);
-            }
-
-            return result;
-        }
-
+        
 
         private static string? GetRecipeName(IDocument doc)
         {
             return doc.QuerySelector(".box > article > h1")?.TextContent;
         }
 
-        
+        //gets all the categories with their name and url to page of all their recipes
+        private static Dictionary<string, string> GetCategories(IDocument doc)
+        {
+            var categoryName = doc.QuerySelectorAll("#cont_recipe_browse_big > div > a").OfType<IHtmlAnchorElement>().ToList();
+
+            var result = new Dictionary<string, string>();
+
+            for (int i = 0; i < categoryName.Count(); i++)
+            {
+                var recepieUrl = categoryName[i].GetAttribute("href") ?? string.Empty;
+
+                result.Add(categoryName[i].TextContent, recepieUrl);
+            }
+
+            return result;
+        }
     }
 }
 
-//Console.WriteLine("Serializing");
-//Console.WriteLine(doc.ToHtml());
-
 //Get recipe name
+
+//Get Ingredients
 
 //Get Instructions
 
 //Get Preparation Time
 
-//Get Cooking Time
+//Get Cooking Time => only prep time available
 
 //Get Portions Count
 
 //Get ImgUrl
-
-//GetIngredients(doc);
-
-//private static void GetIngredients(IDocument doc)
-//{//needs url
-//    var ingridients = doc.QuerySelectorAll(".recipe_ingr > li");
-
-//    foreach (var item in ingridients)
-//    {
-//        Console.WriteLine(item.TextContent);
-//        //Console.WriteLine(item.InnerHtml);
-//        //Console.WriteLine(item.OuterHtml);
-//        //Console.WriteLine(item.ToHtml());
-//    }
-//}
