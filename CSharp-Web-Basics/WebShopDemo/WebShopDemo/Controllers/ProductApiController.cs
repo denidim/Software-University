@@ -46,6 +46,7 @@ namespace WebShopDemo.Controllers
             return Ok(product);
         }
 
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await productService.Delete(id);
