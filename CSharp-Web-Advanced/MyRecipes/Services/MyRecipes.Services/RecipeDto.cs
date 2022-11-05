@@ -9,11 +9,11 @@
 
         public string Instructions { get; set; }
 
-        public TimeSpan? PreparationTime { get; set; }
+        public TimeSpan PreparationTime { get; set; }
 
-        public TimeSpan? CookingTime { get; set; }
+        public TimeSpan CookingTime { get; set; }
 
-        public int? PortionCount { get; set; }
+        public int PortionCount { get; set; }
 
         public string OriginalUrl { get; set; }
 
@@ -25,7 +25,7 @@
 
         public string ImageExtension { get; set; }
 
-        public ICollection<Dictionary<string, string>> Ingridients { get; set; }
-            = new List<Dictionary<string, string>>();
+        public Dictionary<string, string> IngridientsAndQuantity { get; set; }
+            = new Dictionary<string, string>();
     }
 }

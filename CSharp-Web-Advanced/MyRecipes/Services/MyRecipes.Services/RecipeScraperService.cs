@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     using AngleSharp;
@@ -13,7 +12,7 @@
     using MyRecipes.Data.Common.Repositories;
     using MyRecipes.Data.Models;
 
-    public class GotvachBgScraperService : IGotvachBgScraperSevice
+    public class RecipeScraperService : IRecipeScraperSevice
     {
         private readonly IConfiguration configuration;
         private readonly IBrowsingContext browsingContext;
@@ -21,25 +20,25 @@
         private readonly ICollection<RecipeDto> allRecipes;
 
         private readonly IDeletableEntityRepository<Category> categoryRepo;
-
         private readonly IDeletableEntityRepository<Ingredient> ingredientRepo;
+        private readonly IDeletableEntityRepository<Recipe> recipeRepo;
 
-        public GotvachBgScraperService(
+        public RecipeScraperService(
             IDeletableEntityRepository<Category> categoryRepo,
-            IDeletableEntityRepository<Ingredient> ingredientRepo)
+            IDeletableEntityRepository<Ingredient> ingredientRepo,
+            IDeletableEntityRepository<Recipe> recipeRepo)
         {
             this.configuration = Configuration.Default.WithDefaultLoader();
-
             this.browsingContext = BrowsingContext.New(this.configuration);
 
             this.allRecipes = new List<RecipeDto>();
 
             this.categoryRepo = categoryRepo;
-
             this.ingredientRepo = ingredientRepo;
+            this.recipeRepo = recipeRepo;
         }
 
-        public async Task PopulateDtoWithRecipes()
+        public async Task PopulateDtoWithRecipesAsync()
         {
             var url = @"https://www.1001recepti.com/recipes/";
 
@@ -52,7 +51,7 @@
                 var allRecipeDoc = await this.browsingContext.OpenAsync(item.Value);
 
                 List<IHtmlAnchorElement> allSelection = allRecipeDoc.QuerySelectorAll(".ss > a")
-                    .OfType<IHtmlAnchorElement>().Take(100).ToList();
+                    .OfType<IHtmlAnchorElement>().Take(5).ToList();
 
                 // here we add all recipes into new recipe dto
                 for (int i = 0; i < allSelection.Count(); i++)
@@ -77,7 +76,7 @@
                     recipe.Name = name;
 
                     Dictionary<string, string> ingredients = GetIngredients(currentRecipeDoc);
-                    recipe.Ingridients.Add(ingredients);
+                    recipe.IngridientsAndQuantity = ingredients;
 
                     string instructions = GetInstructions(currentRecipeDoc);
                     recipe.Instructions = instructions;
@@ -91,12 +90,20 @@
                     string imgSrc = GetImgSrc(currentRecipeDoc);
                     recipe.Image = imgSrc;
 
-                    string extension = string.Empty;
+                    string extension = "No Image";
 
                     if (imgSrc != null)
                     {
                         int index = imgSrc.LastIndexOf('.');
-                        extension = imgSrc.Substring(index);
+                        if (index < imgSrc.Length - 1)
+                        {
+                            extension = imgSrc.Substring(index);
+                        }
+
+                        if (extension == null || extension.Length < 3)
+                        {
+                            extension = "No Image";
+                        }
                     }
 
                     recipe.ImageExtension = extension;
@@ -110,45 +117,91 @@
 
         private async Task PopulateDb(ICollection<RecipeDto> allRecipes)
         {
-            foreach (var recipe in allRecipes)
+            foreach (var inputRecipe in allRecipes)
             {
-                var categoryId = await this.GetOrCreateCategoryAsync(recipe.CategoryName);
+                var categoryId = await this.GetOrCreateCategoryAsync(inputRecipe.CategoryName);
 
-                var ingredientId = await this.GetOrCreateIngredientsAsync(recipe.Ingridients);
+                var ingredientsIdsAndQuantity = await this
+                    .GetOrCreateIngredientsAsync(inputRecipe.IngridientsAndQuantity);
+
+                bool recipeExists = await this.recipeRepo
+                    .AllAsNoTracking()
+                    .AnyAsync(x => x.Name == inputRecipe.Name);
+
+                if (recipeExists)
+                {
+                    continue;
+                }
+
+                var recipe = new Recipe()
+                {
+                    Name = inputRecipe.Name,
+                    Instructions = inputRecipe.Instructions,
+                    PreparationTime = TimeSpan.FromMinutes(0),
+                    CookingTime = inputRecipe.CookingTime,
+                    PortionCount = inputRecipe.PortionCount,
+                    OriginalUrl = inputRecipe.OriginalUrl,
+                    CategoryId = categoryId,
+                    CreatedOn = DateTime.UtcNow,
+                };
+
+                foreach (var item in ingredientsIdsAndQuantity)
+                {
+                    RecipeIngredient recipeIngredient = new RecipeIngredient
+                    {
+                        RecipeId = recipe.Id,
+                        IngredientId = item.Key,
+                        Quantity = item.Value,
+                    };
+
+                    recipe.Ingredients.Add(recipeIngredient);
+                }
+
+                var image = new Image
+                {
+                    RecipeId = recipe.Id,
+                    Extension = inputRecipe.ImageExtension,
+                };
+
+                recipe.Images.Add(image);
+
+                await this.recipeRepo.AddAsync(recipe);
+                await this.recipeRepo.SaveChangesAsync();
+
             }
         }
 
-        private async Task<int> GetOrCreateIngredientsAsync(ICollection<Dictionary<string, string>> ingridients)
+
+        private async Task<Dictionary<int, string>> GetOrCreateIngredientsAsync(Dictionary<string, string> ingridientsAndQunantity)
         {
-            var ingrIds = new List<int>();
+            var ingrIdsAndQuantity = new Dictionary<int, string>();
 
             Ingredient ingredient;
 
-            foreach (var item in ingridients)
+            foreach (var keyValuePairs in ingridientsAndQunantity)
             {
-                foreach (var keyValuePairs in item)
+                var ingredientName = keyValuePairs.Key;
+                var ingredientQuantity = keyValuePairs.Value;
+
+                ingredient = await this.ingredientRepo
+                            .AllAsNoTracking()
+                            .FirstOrDefaultAsync(x => x.Name == ingredientName);
+
+                if (ingredient == null)
                 {
-                    var ingredientName = keyValuePairs.Value;
-                    var ingredientQuantity = keyValuePairs.Key;
-
-                    ingredient = await this.ingredientRepo
-                                .AllAsNoTracking()
-                                .FirstOrDefaultAsync(x => x.Name == ingredientName);
-
-                    if (ingredient == null)
+                    ingredient = new Ingredient
                     {
-                        ingredient = new Ingredient
-                        {
-                            Name = ingredientName,
-                        };
+                        Name = ingredientName,
+                    };
 
-                        await this.ingredientRepo.AddAsync(ingredient);
-                    }
-
-                    ingrIds.Add(ingredient.Id);
-)
+                    await this.ingredientRepo.AddAsync(ingredient);
+                    await this.ingredientRepo.SaveChangesAsync();
                 }
+
+                ingrIdsAndQuantity[ingredient.Id] = ingredientQuantity;
             }
+
+            return ingrIdsAndQuantity;
         }
 
         private async Task<int> GetOrCreateCategoryAsync(string categoryName)
@@ -165,6 +218,7 @@
                 };
 
                 await this.categoryRepo.AddAsync(category);
+                await this.categoryRepo.SaveChangesAsync();
             }
 
             return category.Id;

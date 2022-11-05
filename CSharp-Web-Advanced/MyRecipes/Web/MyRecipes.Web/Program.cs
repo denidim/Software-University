@@ -15,6 +15,7 @@
     using MyRecipes.Data.Models;
     using MyRecipes.Data.Repositories;
     using MyRecipes.Data.Seeding;
+    using MyRecipes.Services;
     using MyRecipes.Services.Data;
     using MyRecipes.Services.Mapping;
     using MyRecipes.Services.Messaging;
@@ -66,6 +67,8 @@
             services.AddTransient<IGetCountsSerice, GetCountService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IRecipesService, CreateRecipeService>();
+            services.AddTransient<IRecipeScraperSevice, RecipeScraperService>();
+
         }
 
         private static void Configure(WebApplication app)
