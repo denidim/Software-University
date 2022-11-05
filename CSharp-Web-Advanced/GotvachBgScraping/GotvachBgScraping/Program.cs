@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using AngleSharp.Html;
 using AngleSharp.Html.Dom;
 using System.Text;
 
@@ -10,7 +9,7 @@ namespace GotvachBgScraping
     {
         static async Task Main(string[] args)
         {
-            //TODO: remove all console ouput!
+            //TODO: remove all console ouput before use!
 
             Console.OutputEncoding = Encoding.UTF8;
 
