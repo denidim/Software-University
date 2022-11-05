@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Html;
 using AngleSharp.Html.Dom;
 using System.Text;
 
@@ -84,9 +85,19 @@ namespace GotvachBgScraping
             }
         }
 
-        private static string? GetPortionsCount(IDocument currentRecipeDoc)
+        private static int GetPortionsCount(IDocument currentRecipeDoc)
         {
-            return currentRecipeDoc.QuerySelectorAll(".serv > .small > option")?.Where(x=>x.IsChecked())?.FirstOrDefault()?.TextContent;
+            int count = 0;
+
+            string? value = currentRecipeDoc.QuerySelectorAll(".serv > .small > option")?
+                .Where(x => x.IsChecked())?.FirstOrDefault()?.TextContent;
+
+            if(value != null)
+            {
+                count = int.Parse(value);
+            }
+
+            return count;
         }
 
         private static string? GetImgSrc(IDocument currentRecipeDoc)
@@ -94,11 +105,22 @@ namespace GotvachBgScraping
             return currentRecipeDoc.QuerySelector("#r1 > p > img")?.GetAttribute("src");
         }
 
-        private static string? GetCookingTime(IDocument currentRecipeDoc)
+        private static int GetCookingTime(IDocument currentRecipeDoc)
         {
-            Console.WriteLine(currentRecipeDoc.QuerySelector("#rtime > span")?.TextContent);
+            int cookingTime = 0;
 
-            return currentRecipeDoc.QuerySelector("#rtime > span")?.TextContent;
+            string? time = currentRecipeDoc?.QuerySelector("#rtime > span")?.TextContent;
+
+            int index = time.IndexOf(' ');
+
+            var newTime = time.Substring(0, index);
+
+            if (newTime != null && time != null)
+            {
+                cookingTime = int.Parse(newTime);
+            }
+
+            return cookingTime;
         }
 
         private static string? GetInstructions(IDocument currentRecipeDoc)

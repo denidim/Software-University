@@ -4,6 +4,6 @@ namespace MyRecipes.Services
 {
     public interface IGotvachBgScraperSevice
     {
-        Task PopulateDbWithRecipes();
+        Task PopulateDtoWithRecipes();
     }
 }

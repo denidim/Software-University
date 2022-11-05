@@ -49,10 +49,10 @@
                     Ingredient = ingredient,
                     Quantity = inputIngredient.Quantity,
                 });
-
-                await this.recipesRepo.AddAsync(recipe);
-                await this.recipesRepo.SaveChangesAsync();
             }
+
+            await this.recipesRepo.AddAsync(recipe);
+            await this.recipesRepo.SaveChangesAsync();
         }
     }
 }
