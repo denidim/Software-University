@@ -17,8 +17,7 @@
 
         public int PortionCount { get; set; }
 
-        // TODO: OriginalURL
-
+        public string OriginalUrl { get; set; }
 
         public string CreatedByUserId { get; set; }
 

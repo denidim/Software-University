@@ -23,7 +23,7 @@ namespace GotvachBgScraping
 
             foreach (var item in categoriesNameAndUrl) //item.key = CategoryName 
             {
-                Console.WriteLine($"Category Name ====> {item.Key}");
+                Console.WriteLine($"Category Name [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]====> {item.Key}");
 
                 var allRecipeDoc = await BrowsingContext.New(config).OpenAsync(item.Value);
 
@@ -68,6 +68,7 @@ namespace GotvachBgScraping
                     Console.WriteLine(new string('=', 50));
                     Console.WriteLine();
                     Console.WriteLine();
+                    Console.WriteLine(i);
                 }
             }
         }

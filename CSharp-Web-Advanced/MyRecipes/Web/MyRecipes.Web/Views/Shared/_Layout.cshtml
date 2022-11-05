@@ -26,7 +26,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         <li class="nav-item">
                         </li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Create">Create Recipe</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Create">Create Recipe</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -34,14 +34,14 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
