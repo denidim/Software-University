@@ -23,8 +23,6 @@ namespace GotvachBgScraping
 
             foreach (var item in categoriesNameAndUrl) //item.key = CategoryName 
             {
-                Console.WriteLine($"Category Name [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]====> {item.Key}");
-
                 var allRecipeDoc = await BrowsingContext.New(config).OpenAsync(item.Value);
 
                 // take first howmany???
@@ -32,6 +30,8 @@ namespace GotvachBgScraping
 
                 for (int i = 0; i < allSelection.Count(); i++)
                 {
+                    Console.WriteLine($"Category Name [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]====> {item.Key}");
+
                     var recepieUrl = allSelection[i].GetAttribute("href");
 
                     if (recepieUrl == null)
@@ -62,6 +62,17 @@ namespace GotvachBgScraping
 
                     var imgSrc = GetImgSrc(currentRecipeDoc);
                     Console.WriteLine(imgSrc);
+
+                    string extension = string.Empty;
+                    if(imgSrc != null)
+                    {
+                        int index = imgSrc.LastIndexOf('.');
+                        extension = imgSrc.Substring(index);
+                    }
+
+                    var imgExstension = extension;
+                    Console.WriteLine(imgExstension);
+
 
                     Console.WriteLine();
                     Console.WriteLine();
