@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NuGet.Protocol.Core.Types;
 using System.Security.Claims;
 using WebShopDemo.Core.Constants;
 

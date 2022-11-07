@@ -13,19 +13,11 @@ namespace GotvachBgScraping
 
             Console.OutputEncoding = Encoding.UTF8;
 
-            var url = @"https://www.google.com/maps/place/VetCare/@42.6725107,23.3109149,17z/data=!3m1!4b1!4m6!3m5!1s0x40aa84fdb7f81df5:0xbdd16cf05e740dae!8m2!3d42.6725044!4d23.3109027!16s%2Fg%2F1pp2tzppw?authuser=0&hl=en";
+            var url = @"https://www.1001recepti.com/recipes/";
 
             var config = Configuration.Default.WithDefaultLoader();
 
             var doc = await BrowsingContext.New(config).OpenAsync(url);
-
-            //#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child(7) > div.OqCZI.fontBodyMedium.WVXvdc > div.OMl5r.hH0dDd.jBYmhd > div.MkV9 > div.o0Svhf > span.ZDu9vd > span:nth-child(1) > span:nth-child(2)
-            var value = doc.QuerySelectorAll("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div.tAiQdd > div.lMbq3e > div:nth-child(1) > h1");
-            foreach (var item in value)
-            {
-                Console.WriteLine(item.TextContent);
-            }
-
 
             var categoriesNameAndUrl = GetCategories(doc); // category => all its recipes url
 

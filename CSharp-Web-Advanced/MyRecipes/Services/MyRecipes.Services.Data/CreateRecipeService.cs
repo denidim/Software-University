@@ -21,7 +21,7 @@
             this.ingredientRepo = ingredientRepo;
         }
 
-        public async Task CreateAsync(CreateRecipeInputModel input)
+        public async Task CreateAsync(CreateRecipeInputModel input, string userId)
         {
             var recipe = new Recipe()
             {
@@ -31,6 +31,7 @@
                 Instructions = input.Instructions,
                 Name = input.Name,
                 PortionCount = input.PortionCount,
+                CreatedByUserId = userId,
             };
 
             foreach (var inputIngredient in input.Ingredients)
