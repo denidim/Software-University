@@ -51,7 +51,7 @@
                 var allRecipeDoc = await this.browsingContext.OpenAsync(item.Value);
 
                 List<IHtmlAnchorElement> allSelection = allRecipeDoc.QuerySelectorAll(".ss > a")
-                    .OfType<IHtmlAnchorElement>().Take(5).ToList();
+                    .OfType<IHtmlAnchorElement>().ToList();
 
                 // here we add all recipes into new recipe dto
                 for (int i = 0; i < allSelection.Count(); i++)
@@ -160,6 +160,7 @@
                 var image = new Image
                 {
                     RecipeId = recipe.Id,
+                    ImageUrl = inputRecipe.Image,
                     Extension = inputRecipe.ImageExtension,
                 };
 
@@ -250,13 +251,19 @@
 
             string time = currentRecipeDoc?.QuerySelector("#rtime > span")?.TextContent;
 
-            int index = time.IndexOf(' ');
-
-            var newTime = time.Substring(0, index);
-
-            if (newTime != null && time != null)
+            if (time != null)
             {
-                cookingTime = int.Parse(newTime);
+                if (time.Contains(' '))
+                {
+                    int index = time.IndexOf(' ');
+
+                    var newTime = time.Substring(0, index);
+
+                    if (newTime != null)
+                    {
+                        cookingTime = int.Parse(newTime);
+                    }
+                }
             }
 
             return cookingTime;

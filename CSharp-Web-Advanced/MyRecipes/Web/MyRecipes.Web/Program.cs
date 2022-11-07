@@ -66,7 +66,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IGetCountsSerice, GetCountService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
-            services.AddTransient<IRecipesService, CreateRecipeService>();
+            services.AddTransient<IRecipesService, RecipeService>();
             services.AddTransient<IRecipeScraperSevice, RecipeScraperService>();
 
         }

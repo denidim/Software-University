@@ -19,6 +19,8 @@
 
         public ApplicationUser AddedByUser { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public string Extension { get; set; }
 
         // The content of the image is in the file system

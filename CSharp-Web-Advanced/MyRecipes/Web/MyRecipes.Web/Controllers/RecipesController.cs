@@ -44,8 +44,9 @@
                 return this.View();
             }
 
+            // different ways of getting the user
+            // var user = await this.userManager.GetUserAsync(this.User);
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //var user = await this.userManager.GetUserAsync(this.User);
 
             await this.recipeService.CreateAsync(input, userId);
 
@@ -53,9 +54,25 @@
             return this.Redirect("/");
         }
 
-        public IActionResult All(int id)
+        // Recipes/all/1
+        public IActionResult All(int id = 1)
         {
-            return this.View();
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
+            const int ItemsPerPage = 12;
+
+            var viewModel = new RecipesListViewModel
+            {
+
+                ItemsPerPage = ItemsPerPage,
+                PageNumber = id,
+                RecipesCount = this.recipeService.GetCount(),
+                Recipes = this.recipeService.GetAll<RecipeInListViewModel>(id, ItemsPerPage),
+            };
+            return this.View(viewModel);
         }
     }
 }

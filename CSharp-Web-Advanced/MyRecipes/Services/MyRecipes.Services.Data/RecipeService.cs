@@ -1,19 +1,22 @@
 ﻿namespace MyRecipes.Services.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
     using MyRecipes.Data.Common.Repositories;
     using MyRecipes.Data.Models;
+    using MyRecipes.Services.Mapping;
     using MyRecipes.Web.ViewModels.Recipes;
 
-    public class CreateRecipeService : IRecipesService
+    public class RecipeService : IRecipesService
     {
         private readonly IDeletableEntityRepository<Recipe> recipesRepo;
         private readonly IDeletableEntityRepository<Ingredient> ingredientRepo;
 
-        public CreateRecipeService(
+        public RecipeService(
             IDeletableEntityRepository<Recipe> recipesRepo,
             IDeletableEntityRepository<Ingredient> ingredientRepo)
         {
@@ -54,6 +57,26 @@
 
             await this.recipesRepo.AddAsync(recipe);
             await this.recipesRepo.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
+        {
+            var recipes = this.recipesRepo.AllAsNoTracking()
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
+                .To<T>()
+                .ToList();
+
+            return recipes;
+
+            // 1-12 page 1
+            // 13-24 page 2
+            // 25-36 page 3
+        }
+
+        public int GetCount()
+        {
+            return this.recipesRepo.AllAsNoTracking().Count();
         }
     }
 }
