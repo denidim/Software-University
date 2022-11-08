@@ -2,22 +2,34 @@
 @model RecipesListViewModel
 
 @{
-    this.ViewBag.Title = "All Recipes, Page "+ Model.PageNumber;
+    this.ViewBag.Title = "All Recipes, Page " + Model.PageNumber;
 }
 
 <h1>@this.ViewBag.Title</h1>
-
+<hr />
 <div class="row">
     @foreach (var recipe in this.Model.Recipes)
     {
-    <div class="media col-md-3">
-            <img src="@recipe.ImageUrl" width="100" class="mr-3 img-responsive">
-        <div class="media-body">
-            <h5 class="mt-0">@recipe.Name</h5>
-            @recipe.CategoryName
+        <div class="col-lg-3 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@recipe.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@recipe.Name</h5>
+                    <p class="card-text">@recipe.CategoryName</p>
+                    <a asp-action="ById" asp-route-id="@recipe.Id">See Recipe</a>
+                </div>
+            </div>
         </div>
+        
+
+        @*<div class="media col-md-4">
+    <img src="@recipe.ImageUrl" width="100" class="mr-3 img-responsive">
+    <div class="media-body">
+    <h5 class="mt-0"><a asp-action="ById" asp-route-id="@recipe.Id">@recipe.Name</a></h5>
+    @recipe.CategoryName
     </div>
-}
+    </div>*@
+    }
 </div>
 <hr />
 <partial name="_PagingPartial" model="@Model" />
