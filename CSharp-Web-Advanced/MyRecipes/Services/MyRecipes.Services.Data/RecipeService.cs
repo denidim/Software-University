@@ -101,6 +101,16 @@
             // 25-36 page 3
         }
 
+        public T GetById<T>(int id)
+        {
+            var recipe = this.recipesRepo.All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefault();
+
+            return recipe;
+        }
+
         public int GetCount()
         {
             return this.recipesRepo.AllAsNoTracking().Count();
