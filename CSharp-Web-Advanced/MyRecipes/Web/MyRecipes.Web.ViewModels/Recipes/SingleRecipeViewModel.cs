@@ -42,7 +42,7 @@
         {
             configuration.CreateMap<Recipe, SingleRecipeViewModel>()
                 .ForMember(x => x.VotesAverageValue, options =>
-                options.MapFrom(x =>
+                options.MapFrom(x => x.Votes.Count() == 0 ? 0 :
                 x.Votes.Average(x => x.Value)))
                 .ForMember(x => x.ImageUrl, options =>
                 options.MapFrom(x =>
