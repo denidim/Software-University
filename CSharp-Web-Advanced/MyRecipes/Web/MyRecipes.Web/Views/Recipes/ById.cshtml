@@ -28,11 +28,11 @@
                 </li>
                 <li class="single-meta">
                     <ul class="item-rating">
-                        <li class="star-fill" data-vote=1><i class="fas fa-star"></i></li>
-                        <li class="star-fill" data-vote=2><i class="fas fa-star"></i></li>
-                        <li class="star-fill" data-vote=3><i class="fas fa-star"></i></li>
-                        <li class="star-fill" data-vote=4><i class="fas fa-star"></i></li>
-                        <li class="star-empty" data-vote=5><i class="fas fa-star"></i></li>
+                        <li class=@(Model.VotesAverageValue >= 1 ? "star-fill" : "star-empty") data-vote=1><i class="fas fa-star"></i></li>
+                        <li class=@(Model.VotesAverageValue >= 2 ? "star-fill" : "star-empty") data-vote=2><i class="fas fa-star"></i></li>
+                        <li class=@(Model.VotesAverageValue >= 3 ? "star-fill" : "star-empty") data-vote=3><i class="fas fa-star"></i></li>
+                        <li class=@(Model.VotesAverageValue >= 4 ? "star-fill" : "star-empty") data-vote=4><i class="fas fa-star"></i></li>
+                        <li class=@(Model.VotesAverageValue >= 5 ? "star-fill" : "star-empty") data-vote=5><i class="fas fa-star"></i></li>
                         <li><span id="averageVoteValue">@Model.VotesAverageValue.ToString("0.0")</span><span> / 5</span> </li>
                     </ul>
                 </li>
