@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MyRecipes.Data.Models;
@@ -15,15 +16,18 @@
         private readonly ICategoriesService categoriesService;
         private readonly IRecipesService recipeService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment environment;
 
         public RecipesController(
             ICategoriesService categoriesService,
             IRecipesService recipeService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment environment)
         {
             this.categoriesService = categoriesService;
             this.recipeService = recipeService;
             this.userManager = userManager;
+            this.environment = environment;
         }
 
         [Authorize]
@@ -41,14 +45,21 @@
             if (!this.ModelState.IsValid)
             {
                 input.CategoriesItems = this.categoriesService.GetAllKeyValuePairs();
-                return this.View();
+                return this.View(input);
             }
 
             // different ways of getting the user
             // var user = await this.userManager.GetUserAsync(this.User);
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            await this.recipeService.CreateAsync(input, userId);
+            try
+            {
+                await this.recipeService.CreateAsync(input, userId, $"{this.environment.WebRootPath}/images");
+            }
+            catch (System.Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+            }
 
             // TODO: Redirect to recipe info page
             return this.Redirect("/");

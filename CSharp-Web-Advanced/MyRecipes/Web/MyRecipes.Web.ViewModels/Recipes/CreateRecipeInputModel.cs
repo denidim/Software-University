@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
     using MyRecipes.Data.Models;
 
     public class CreateRecipeInputModel
@@ -32,6 +33,8 @@
         public virtual ApplicationUser CreatedByUser { get; set; }
 
         public int CategoryId { get; set; }
+
+        public IEnumerable<IFormFile> Images { get; set; }
 
         public IEnumerable<RecipeIngredientInputModel> Ingredients { get; set; }
 
