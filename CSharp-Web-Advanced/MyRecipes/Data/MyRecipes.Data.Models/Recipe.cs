@@ -30,5 +30,7 @@
         public virtual ICollection<RecipeIngredient> Ingredients { get; set; } = new HashSet<RecipeIngredient>();
 
         public virtual ICollection<Image> Images { get; set; } = new HashSet<Image>();
+
+        public virtual ICollection<Vote> Votes { get; set; } = new HashSet<Vote>();
     }
 }
