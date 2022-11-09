@@ -24,9 +24,9 @@
 
         public async Task SetVoteAsync(int recipeId, string userId, byte value)
         {
-            var vote = await this.votesRepo
+            var vote = this.votesRepo
                 .All()
-                .FirstOrDefaultAsync(x => x.RecipeId == recipeId && x.UserId == userId);
+                .FirstOrDefault(x => x.RecipeId == recipeId && x.UserId == userId);
 
             if (vote == null)
             {
