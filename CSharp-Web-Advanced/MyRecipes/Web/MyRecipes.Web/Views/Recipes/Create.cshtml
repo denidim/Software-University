@@ -46,10 +46,12 @@
         <input asp-for="Images" class="form-control" />
         <span asp-validation-for="Images" class="text-danger"></span>
     </div>
+    <hr/>
     <div id="IngredientsContainer">
         <label asp-for="Ingredients"></label>
         <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
-        <span asp-validation-for="Images" class="text-danger"></span>
+        <a class="btn btn-danger" onclick="DeleteIngredientForm()">-</a>
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
     </div>
     <input type="submit" class="button btn-primary" />
 </form>
@@ -66,5 +68,6 @@
                 .append("<div class='form-control'>Name: <input class='form-control' type='text' name='Ingredients[" + ingredientindex + "].IngredientName' /> Quantity: <input class='form-control' type='text' name='Ingredients[" + ingredientindex + "].Quantity' /></div>");
             ingredientindex++;
         }
+        
     </script>
 }

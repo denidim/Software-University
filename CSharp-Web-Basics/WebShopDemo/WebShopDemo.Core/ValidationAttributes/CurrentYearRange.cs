@@ -26,3 +26,4 @@ namespace WebShopDemo.Core.ValidationAttributes
         }
     }
 }
+  

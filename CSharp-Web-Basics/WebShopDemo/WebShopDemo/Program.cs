@@ -1,4 +1,6 @@
+using Community.Microsoft.Extensions.Caching.PostgreSql;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WebShopDemo.Core.Constants;
 using WebShopDemo.Core.Contracts;
@@ -45,6 +47,14 @@ builder.Services.AddAuthorization(options =>
         => policy.RequireAssertion(context
         => context.User.IsInRole(RoleConstants.Manager)
         && context.User.IsInRole(RoleConstants.Supervisor)));
+});
+
+builder.Services.AddMemoryCache();
+builder.Services.AddDistributedPostgreSqlCache(opt =>
+{
+    opt.ConnectionString = connectionString;
+    opt.SchemaName = "dbo";
+    opt.TableName = "CacheRecords";
 });
 
 builder.Services.AddControllersWithViews(config =>

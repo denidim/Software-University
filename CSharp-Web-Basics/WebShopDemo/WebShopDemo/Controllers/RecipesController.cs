@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using WebShopDemo.Core.Models.Recipes;
 
 namespace WebShopDemo.Controllers
@@ -6,10 +7,14 @@ namespace WebShopDemo.Controllers
     public class RecipesController : BaseController
     {
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IMemoryCache memoryCache;
 
-        public RecipesController(IWebHostEnvironment webHostEnvironment)
+        public RecipesController(
+            IWebHostEnvironment webHostEnvironment,
+            IMemoryCache memoryCache)
         {
             this.webHostEnvironment = webHostEnvironment;
+            this.memoryCache = memoryCache;
         }
 
         public IActionResult Add()
@@ -77,6 +82,27 @@ namespace WebShopDemo.Controllers
         {
             return this.PhysicalFile(this.webHostEnvironment.WebRootPath + "/user.png", "image/png");
         }
-        
+
+        public IActionResult Time()
+        {
+            // serch for the data in the memory cache
+            if(!memoryCache.TryGetValue<DateTime>("Data", out var cacheTime))
+            {
+                // gets data from source
+                cacheTime = GetData();
+
+                // set data in the memory cache     // holds it for {time}
+                memoryCache.Set("Data", cacheTime, TimeSpan.FromSeconds(10));
+            }
+
+            return this.Content(DateTime.Now.ToLongTimeString() + "-- Cache: " + cacheTime);
+        }
+
+        private DateTime GetData()
+        {
+            Thread.Sleep(5000);
+
+            return DateTime.Now;
+        }
     }
 }
