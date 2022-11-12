@@ -9,7 +9,7 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form method="post">
+<form method="post" id="editForm">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -47,5 +47,6 @@
     </div>
     <hr />
     <input type="hidden" asp-for="Id" />
-    <input type="submit" class="btn btn-success" value="Save Changes" />
+    <button type="submit" class="btn btn-success">Save Changes</button>
 </form>
+
