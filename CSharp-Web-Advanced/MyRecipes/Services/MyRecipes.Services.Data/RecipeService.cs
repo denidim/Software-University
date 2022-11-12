@@ -1,17 +1,15 @@
 ﻿namespace MyRecipes.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.NetworkInformation;
-    using System.Threading.Tasks;
-
     using Microsoft.EntityFrameworkCore;
     using MyRecipes.Data.Common.Repositories;
     using MyRecipes.Data.Models;
     using MyRecipes.Services.Mapping;
     using MyRecipes.Web.ViewModels.Recipes;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class RecipeService : IRecipesService
     {
@@ -83,6 +81,15 @@
             }
 
             await this.recipesRepo.AddAsync(recipe);
+            await this.recipesRepo.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var recipe = this.recipesRepo.All().FirstOrDefault(x => x.Id == id);
+
+            this.recipesRepo.Delete(recipe);
+
             await this.recipesRepo.SaveChangesAsync();
         }
 
