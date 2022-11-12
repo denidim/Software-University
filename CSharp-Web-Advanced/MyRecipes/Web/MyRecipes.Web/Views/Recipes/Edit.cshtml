@@ -47,6 +47,24 @@
     </div>
     <hr />
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-success">Save Changes</button>
 </form>
+<button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModel">Save Changes</button>
 
+<!-- Modal -->
+<div class="modal fade" id="editModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Recipe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to edit "@Model.Name"?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" onclick="editForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

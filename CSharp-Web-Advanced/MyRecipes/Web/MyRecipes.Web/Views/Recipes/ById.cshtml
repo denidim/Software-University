@@ -42,7 +42,7 @@
                         <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Edit</a>
                     </li>
                     <li class="single-meta">
-                        <form asp-controller="Recipes" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id" ></form>
+                        <form method="post" asp-controller="Recipes" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id" ></form>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                     </li>
                 }
