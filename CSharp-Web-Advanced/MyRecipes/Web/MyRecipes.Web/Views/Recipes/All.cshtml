@@ -5,6 +5,11 @@
     this.ViewBag.Title = "All Recipes, Page " + Model.PageNumber;
 }
 
+@if (this.TempData.ContainsKey("Message")) 
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
 <h1>@this.ViewBag.Title</h1>
 <hr />
 <div class="row">

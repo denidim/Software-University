@@ -34,8 +34,10 @@
 
         public int CategoryId { get; set; }
 
+        [Required]
         public IEnumerable<IFormFile> Images { get; set; }
 
+        [Required]
         public IEnumerable<RecipeIngredientInputModel> Ingredients { get; set; }
 
         [Display(Name = "Choose Category")]

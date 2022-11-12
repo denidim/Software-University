@@ -61,8 +61,10 @@
                 this.ModelState.AddModelError(string.Empty, ex.Message);
             }
 
+            this.TempData["Message"] = "Recipe added successfully.";
+
             // TODO: Redirect to recipe info page
-            return this.Redirect("/");
+            return this.RedirectToAction("All");
         }
 
         // Recipes/all/1
