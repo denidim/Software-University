@@ -18,5 +18,7 @@
         IEnumerable<T> GetRandom<T>(int count);
 
         Task UpdateAsync(int id, EditRecipeInputModel input);
+
+        IEnumerable<T> GetByIngredients<T>(IEnumerable<int> ingredientIds);
     }
 }

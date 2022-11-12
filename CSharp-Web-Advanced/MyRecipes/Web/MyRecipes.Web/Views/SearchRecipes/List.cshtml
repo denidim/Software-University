@@ -1,0 +1,25 @@
+﻿@using MyRecipes.Web.ViewModels.SearchRecipes;
+@model ListViewModel
+
+@{
+    ViewBag.Title = "Search result";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<div class="row">
+    @foreach (var recipe in this.Model.Recipes)
+    {
+        <div class="col-lg-3 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@recipe.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@recipe.Name</h5>
+                    <p class="card-text">@recipe.CategoryName</p>
+                    <a asp-action="ById" asp-route-id="@recipe.Id">See Recipe</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

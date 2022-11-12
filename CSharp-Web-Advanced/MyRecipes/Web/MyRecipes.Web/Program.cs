@@ -73,7 +73,7 @@
             services.AddTransient<IRecipesService, RecipeService>();
             services.AddTransient<IRecipeScraperSevice, RecipeScraperService>();
             services.AddTransient<IVoteService, VoteService>();
-
+            services.AddTransient<IIngredientsService, IngredientsService>();
         }
 
         private static void Configure(WebApplication app)
