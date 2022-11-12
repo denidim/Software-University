@@ -115,5 +115,27 @@
         {
             return this.recipesRepo.AllAsNoTracking().Count();
         }
+
+        public IEnumerable<T> GetRandom<T>(int count)
+        {
+            // =>                                Random sort
+            return this.recipesRepo.All().OrderBy(x => Guid.NewGuid())
+                .Take(count)
+                .To<T>().ToList();
+        }
+
+        public async Task UpdateAsync(int id, EditRecipeInputModel input)
+        {
+            var recipe = this.recipesRepo.All().FirstOrDefault(x => x.Id == id);
+
+            recipe.Name = input.Name;
+            recipe.Instructions = input.Instructions;
+            recipe.CookingTime = TimeSpan.FromMinutes(input.CookingTime);
+            recipe.PreparationTime = TimeSpan.FromMinutes(input.PreparationTime);
+            recipe.PortionCount = input.PortionCount;
+            recipe.CategoryId = input.CategoryId;
+
+            await this.recipesRepo.SaveChangesAsync();
+        }
     }
 }

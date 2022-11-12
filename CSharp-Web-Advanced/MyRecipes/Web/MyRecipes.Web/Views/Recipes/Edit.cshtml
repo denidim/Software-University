@@ -1,0 +1,51 @@
+﻿@using MyRecipes.Web.ViewModels.Recipes;
+@model EditRecipeInputModel
+
+@{
+    ViewBag.Title = "Edit Recipe";
+    var items = this.Model.CategoriesItems;
+    var categoryItems = items.Select(x => new SelectListItem(x.Value, x.Key));
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Instructions"></label>
+        <textarea asp-for="Instructions" class="form-control"></textarea>
+        <span asp-validation-for="Instructions" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CookingTime"></label>
+        <input asp-for="CookingTime" class="form-control" />
+        <span asp-validation-for="CookingTime" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PreparationTime"></label>
+        <input asp-for="PreparationTime" class="form-control" />
+        <span asp-validation-for="PreparationTime" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PortionCount"></label>
+        <input asp-for="PortionCount" class="form-control" />
+        <span asp-validation-for="PortionCount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PortionCount"></label>
+        <input asp-for="PortionCount" class="form-control" />
+        <span asp-validation-for="PortionCount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="categoryItems"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <hr />
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" class="btn btn-success" value="Save Changes" />
+</form>

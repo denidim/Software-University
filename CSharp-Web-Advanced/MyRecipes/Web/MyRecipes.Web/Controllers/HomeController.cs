@@ -9,14 +9,18 @@
 
     // 1. ApplicationDbContext
     // 2. Repositories
-    // 3. Serices
+    // 3. Services
     public class HomeController : BaseController
     {
         private readonly IGetCountsSerice getCountsSerice;
+        private readonly IRecipesService recipesService;
 
-        public HomeController(IGetCountsSerice getCountsSerice)
+        public HomeController(
+            IGetCountsSerice getCountsSerice,
+            IRecipesService recipesService)
         {
             this.getCountsSerice = getCountsSerice;
+            this.recipesService = recipesService;
         }
 
         public IActionResult Index()
@@ -29,6 +33,7 @@
                 ImagesCount = counts.ImagesCount,
                 IngredientsCount = counts.IngredientsCount,
                 RecipesCount = counts.RecipesCount,
+                RandomRecipes = this.recipesService.GetRandom<IndexPageRecipeViewModel>(10),
             };
 
             return this.View(viewModel);

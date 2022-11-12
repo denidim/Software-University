@@ -36,6 +36,12 @@
                         <li><span id="averageVoteValue">@Model.VotesAverageValue.ToString("0.0")</span><span> / 5</span> </li>
                     </ul>
                 </li>
+                @if (this.User.IsInRole(MyRecipes.Common.GlobalConstants.AdministratorRoleName))
+                {
+                    <li class="single-meta">
+                        <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Edit</a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
