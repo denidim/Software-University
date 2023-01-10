@@ -47,7 +47,7 @@ namespace WebShopDemo.Controllers
                 EmailConfirmed = true,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.Email
+                UserName = model.Email,
             };
 
             var result =  await userManager.CreateAsync(user, model.Password);
