@@ -1,0 +1,35 @@
+.viewport:first-child {
+    background-image: linear-gradient(to right, rgb(51, 84, 203) , rgb(17, 214, 175));
+}
+
+.viewport:last-child {
+    background-image: linear-gradient(to right, rgb(199, 77, 97), orange);
+}
+
+.viewport {
+    height: 50vh;
+    position: relative;
+}
+
+.viewport .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.viewport:first-child img {
+    width: 200px;
+}
+
+.viewport:last-child img {
+    width: 200px;
+}
+
+
+.viewport .card i {
+    position: absolute;
+    bottom: 10px;
+    right: 6px;
+    color: white;
+}
