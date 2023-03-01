@@ -1,0 +1,52 @@
+body {
+  font-family: "Poppins", sans-serif;
+  color: gray;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", sans-serif;
+  color: black;
+}
+
+section {
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 1300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.section .car,
+.section .info {
+  width: 50%;
+}
+
+.features {
+  padding-left: 0;
+}
+
+.features .feature{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+.features .feature .img-item{
+  width: 70px;
+}
+
+.section .info .title,
+.section .info .desc-2{
+  margin-bottom: 30px;
+}
+
+.section .info .desc{
+  margin-bottom: 10px;
+}

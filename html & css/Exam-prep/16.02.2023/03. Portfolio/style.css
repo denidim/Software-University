@@ -1,0 +1,106 @@
+:root {
+  --col-primary: #efefef;
+  --col-text: #222222;
+  --col-socials: #909090;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  color: var(--col-text);
+}
+
+.page-section {
+  max-width: 1880px;
+  margin: 1.5rem auto;
+  background-color: var(--col-primary);
+  height: calc(100vh - 1.5rem);
+  padding: 3rem 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.page-section .section-info {
+  flex: 0 0 50%;
+}
+
+.page-section .section-img {
+  flex: 0 1 45%;
+}
+
+.page-section .title {
+  font-weight: 200;
+  font-size: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.page-section .desc {
+  font-style: italic;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 80%;
+}
+
+.page-section .divider.vertical {
+  height: 6rem;
+  width: 1px;
+  background-color: var(--col-text);
+}
+
+#hero.page-section {
+  position: relative;
+}
+
+#hero .navigation {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+#hero .hero-img {
+  position: absolute;
+  width: 50%;
+  bottom: 0px;
+  right: 5rem;
+}
+
+#camera .socials {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0px;
+}
+
+#camera .socials .social {
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--col-socials);
+  color: white;
+  position: relative;
+}
+
+#camera .socials .social i {
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.divider-box{
+    display: inline-block;
+    padding-bottom: 1.2rem;
+    padding-right: 1rem;
+    
+}
+
+#camera .section-info .divider.horizontal {
+  height: 1px;
+  width: 5rem;
+  background-color: var(--col-text);
+}
+
+#camera .section-info h1 {
+    display: inline-block;
+}
