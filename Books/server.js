@@ -42,7 +42,7 @@ server.delete('/books/:id', (req, res) => {
     }
 });
 
-if(reqire.main === module){
+if(require.main === module){
     server.listen(3000, () => console.log('Server is up and running'));
 }
 
