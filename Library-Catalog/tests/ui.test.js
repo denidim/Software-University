@@ -64,3 +64,22 @@ test('Verify register form with empty input field give appropriate message', asy
     //await page.$('a[href="/register"]');
     expect(page.url()).toBe('http://localhost:3000/register');
 });
+
+test('Add book with corect data', async({page})=>{
+    await page.goto('http://localhost:3000/login');
+    await page.fill('#email', 'peter@abv.bg');
+    await page.fill('#password', '123456');
+    await Promise.all([
+        page.click('input[type="submit"]'),
+        page.waitForURL('http://localhost:3000/catalog')
+    ]);
+    await page.click('a[href="/create"]');
+    await page.waitForSelector('#create-form');
+    await page.fill('#title', 'Test Book');
+    await page.fill('#description', 'this is Test Book descriptin');
+    await page.fill('#image', 'https://www.freepik.com/free-photos-vectors/book-jpg');
+    await page.selectOption('#type', 'Fiction')
+    await page.click('#create-form input[type="submit"]');
+    await page.waitForURL('http://localhost:3000/catalog')
+    expect(page.url()).toBe('http://localhost:3000/catalog')
+})
