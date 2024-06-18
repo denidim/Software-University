@@ -1,7 +1,7 @@
 const {test,expect} = require("@playwright/test")
 const appUrl = 'http://localhost:3000';
 
-test('Varify All Books link is visible', async ({page})=>{
+test('Verify All Books link is visible', async ({page})=>{
     await page.goto(appUrl);
     await page.waitForSelector('nav.navbar');
     const allBooksLink = await page.$('a[href="/catalog"]');
@@ -9,15 +9,15 @@ test('Varify All Books link is visible', async ({page})=>{
     expect(isElementVisible).toBe(true);
 });
 
-test('Varify Login link is visible', async ({page})=>{
+test('Verify Login link is visible', async ({page})=>{
     await page.goto(appUrl);
-    //await page.waitForSelector('nav.navbar');
+    await page.waitForSelector('nav.navbar');
     const loginLink = await page.$('a[href="/login"]');
     const isElementVisible = await loginLink.isVisible();
     expect(isElementVisible).toBe(true);
 });
 
-test('Varify Register link is visible', async ({page})=>{
+test('Verify Register link is visible', async ({page})=>{
     await page.goto(appUrl);
     await page.waitForSelector('nav.navbar');
     const registerLink = await page.$('a[href="/register"]');
@@ -25,7 +25,7 @@ test('Varify Register link is visible', async ({page})=>{
     expect(isElementVisible).toBe(true);
 });
 
-test('Varify valid user can login', async ({page})=>{
+test('Verify valid user can login', async ({page})=>{
     await page.goto(appUrl);
     await page.waitForSelector('nav.navbar');
     const loginLink = await page.$('a[href="/login"]');
@@ -37,4 +37,18 @@ test('Varify valid user can login', async ({page})=>{
     const logOutBtn= await page.$('#logoutBtn');
     const isVisible = await logOutBtn.isVisible();
     expect(isVisible).toBe(true);
+    await page.$('a[href="/catalog"]');
+    expect(page.url()).toBe('http://localhost:3000/catalog');
+});
+
+test('Verify submit form with empty input field give appropriate message', async ({page})=>{
+    await page.goto('http://localhost:3000/login');
+    await page.$('input[type="submit"]');
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!');
+        await dialog.accept()
+    })
+    await page.$('a[href="/login"]');
+    expect(page.url()).toBe('http://localhost:3000/login');
 });
