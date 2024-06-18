@@ -80,4 +80,41 @@ describe('Books API', () => {
                 done();
             });
     })
+
+    it('should return 404 when trying to GET, PUT or DELETE a non-existing book', (done) => {
+        const nonExistingId = 999;
+        const nonExistingBook = { id: nonExistingId, title: 'NonExisting Test Book', author: 'NonExisting Test Author' };
+
+        chai.request(server)
+            .get(`/books/${nonExistingId}`)
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.statusCode, "Status code").to.be.equal(404);
+                console.log("response: ", res.body);
+            });
+
+            chai.request(server)
+            .put(`/books/${nonExistingId}`)
+            .send(nonExistingBook)
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.statusCode, "Status code").to.be.equal(404);
+                console.log("response: ", res.body);
+            });
+
+            chai.request(server)
+            .delete(`/books/${nonExistingId}`)
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.statusCode, "Status code").to.be.equal(404);
+                console.log("response: ", res.body);
+                done();
+            });
+    })
 })
