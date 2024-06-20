@@ -124,3 +124,19 @@ test('Login and verify all books are displayed', async ({ page }) => {
     const detailsPageTitle = await page.textContent('.book-information h3');
     expect(detailsPageTitle).toBe('Test Book'); 
   });
+
+  test('Verify visibility of Logout button after user login', async ({ page }) => {
+    await page.goto('http://localhost:3000/login');
+  
+    await page.fill('input[name="email"]', 'peter@abv.bg');
+    await page.fill('input[name="password"]', '123456');
+    await page.click('input[type="submit"]');
+  
+    await page.waitForURL("http://localhost:3000/catalog")
+    const logoutLink = await page.$('a[href="javascript:void(0)"]');
+  
+    const isLogoutLinkVisible = await logoutLink.isVisible();
+  
+    expect(isLogoutLinkVisible).toBe(true);
+  });
+  
