@@ -101,3 +101,26 @@ test('Login and verify all books are displayed', async ({ page }) => {
   
     expect(bookElements.length).toBeGreaterThan(0);
   });
+
+  test('Login and navigate to Details page', async ({ page }) => {
+    await page.goto('http://localhost:3000/login');
+  
+    await page.fill('input[name="email"]', 'peter@abv.bg');
+    await page.fill('input[name="password"]', '123456');
+  
+    await Promise.all([
+      page.click('input[type="submit"]'), 
+      page.waitForURL('http://localhost:3000/catalog')
+    ]);
+  
+    await page.click('a[href="/catalog"]');
+  
+    await page.waitForSelector('.otherBooks');
+  
+    await page.click('.otherBooks a.button');
+  
+    await page.waitForSelector('.book-information');
+  
+    const detailsPageTitle = await page.textContent('.book-information h3');
+    expect(detailsPageTitle).toBe('Test Book'); 
+  });
