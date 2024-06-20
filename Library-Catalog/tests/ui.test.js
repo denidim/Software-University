@@ -83,3 +83,21 @@ test('Add book with corect data', async({page})=>{
     await page.waitForURL('http://localhost:3000/catalog')
     expect(page.url()).toBe('http://localhost:3000/catalog')
 })
+
+test('Login and verify all books are displayed', async ({ page }) => {
+    await page.goto('http://localhost:3000/login');
+  
+    await page.fill('input[name="email"]', 'peter@abv.bg');
+    await page.fill('input[name="password"]', '123456');
+  
+    await Promise.all([
+      page.click('input[type="submit"]'), 
+      page.waitForURL('http://localhost:3000/catalog') 
+    ]);
+  
+    await page.waitForSelector('.dashboard');
+  
+    const bookElements = await page.$$('.other-books-list li');
+  
+    expect(bookElements.length).toBeGreaterThan(0);
+  });
